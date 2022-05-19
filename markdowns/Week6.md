@@ -11,7 +11,7 @@
 * Combining conditions
   - `[ $a -gt 3 ] && [ $a -gt 7 ]`
   - `[ $a -lt 3 ] || [ $a -gt 7 ]`
-  - Example [condition-examples.sh](Example_Files/condition-examples.sh)
+  - Example [condition-examples.sh](../Example_Files/condition-examples.sh)
 
 * Shell arithmetic
 	- Using `let`
@@ -26,7 +26,7 @@
 	- Using `$(( expression ))`
 		- `b=$(( $a + 10 ))`
 		- `(( b++ ))`- Without $. Not intending to return. Useful for incrementing
-	- Example [arithmetic-example-1.sh](Example_Files/arithmetic-example-1.sh)
+	- Example [arithmetic-example-1.sh](../Example_Files/arithmetic-example-1.sh)
 * ### expr command operators
 
 | Expression  | Description  |
@@ -52,7 +52,7 @@
 |	`+ token`	|	Interpret token as string even if its a keyword	|
 |	`(exprn)`	|	Return the value of expression exprn	|
 
-* Example [expr-examples.sh](Example_Files/expr-examples.sh)
+* Example [expr-examples.sh](../Example_Files/expr-examples.sh)
 
 * Bench Calculator 
 	- An arbitaty preciscion calculator language
@@ -63,12 +63,12 @@
 	
 * heredoc feature 
 	- helps while passing long strings without having to worry about `\n` etc.
-	- Example [heredoc-example-1.sh](Example_Files/heredoc-example-1.sh)
-	- Example [heredoc-example-2.sh](Example_Files/heredoc-example-2.sh)
+	- Example [heredoc-example-1.sh](../Example_Files/heredoc-example-1.sh)
+	- Example [heredoc-example-2.sh](../Example_Files/heredoc-example-2.sh)
 	- A hyphen tells bash to ignore leading tabs
 	
 * PATH variable
-	- Example [path-example.sh](Example_Files/path-example.sh)
+	- Example [path-example.sh](../Example_Files/path-example.sh)
 		- IFS (Internal Field Seperator)
 ___ 
 L6.3
@@ -235,12 +235,12 @@ done
 	- Execute argument as a shell command
 	- Combines arguments into a single string
 	- Returns control to the shell with exit status
-	- Example [eval-example.sh](Example_Files/eval-example.sh)
+	- Example [eval-example.sh](../Example_Files/eval-example.sh)
 * function 
-	- Example [function-example.sh](Example_Files/function-example.sh)
+	- Example [function-example.sh](../Example_Files/function-example.sh)
 * getopts
 	- This script can be invoked with only three options: `a`, `b`, `c`. The options `b` and `c` will take arguments.
-	- Example [getopts-example.sh](Example_Files/getopts-example.sh)
+	- Example [getopts-example.sh](../Example_Files/getopts-example.sh)
 
 ```bash
 while getopts "ab:c:" options;
@@ -266,7 +266,7 @@ done
 
 * select loop
 	- Text Menu
-	- Example [select-example.sh](Example_Files/select-example.sh)
+	- Example [select-example.sh](../Example_Files/select-example.sh)
 ```bash
 echo select a middle one
 select i in {1..10}
@@ -329,7 +329,7 @@ L6.4
 		```
 		
 * Examples
-	- [block-ex-1.awk](Example_Files/block-ex-1.awk)
+	- [block-ex-1.awk](../Example_Files/block-ex-1.awk)
 		- `./block-ex-1.awk block-ex-1.input`
 		- `cat block-ex-1.input | ./block-ex-1.awk`
 		- For each line Default block will be processed once. 
@@ -433,12 +433,12 @@ L6.4
 |	bit-wise	|	`and` `compl` `lshift` `or` `rshift` `xor`	|
 
 * Example 
-	- [block-ex-2.awk](Example_Files/block-ex-2.awk)
-	- [block-ex-3.awk](Example_Files/block-ex-3.awk)
+	- [block-ex-2.awk](../Example_Files/block-ex-2.awk)
+	- [block-ex-3.awk](../Example_Files/block-ex-3.awk)
 		- Blocks get executed based on whether the line has `alpha`,`alnum` or `digits`
-	- [block-ex-4.awk](Example_Files/block-ex-4.awk)
+	- [block-ex-4.awk](../Example_Files/block-ex-4.awk)
 		- Matching only the first field in the record with a pattern
-	- [block-ex-5.awk](Example_Files/block-ex-5.awk)
+	- [block-ex-5.awk](../Example_Files/block-ex-5.awk)
 		- Field Separator as regular expression
 		- Number of fields as condition 
 ___
@@ -484,7 +484,7 @@ L6.4
 	} while (a<n)
 	```
 * Example 
-	- [block-ex-6.awk](Example_Files/block-ex-6.awk)
+	- [block-ex-6.awk](../Example_Files/block-ex-6.awk)
 * #### Functions
 	- `cat infile |awk -f mylib -f myscript.awk`
 	- `mylib`
@@ -511,8 +511,8 @@ L6.4
 	}
 	```
 * Example 
-	- [func-example.awk](Example_Files/func-example.awk)
-	- [func-lib.awk](Example_Files/func-lib.awk)
+	- [func-example.awk](../Example_Files/func-example.awk)
+	- [func-lib.awk](../Example_Files/func-lib.awk)
 
 * #### Pretty printing
 	- `printf "format", a, b, c`
@@ -539,10 +539,10 @@ L6.4
 	- Use with other shell scripts on command line using pipe
 * Examples 
 	- Spreadsheet handling efficiency demo
-	- [rsheet-create.awk](Example_Files/rsheet-create.awk)
+	- [rsheet-create.awk](../Example_Files/rsheet-create.awk)
 	- `echo " " | ./rsheet-create.awk`
 	- Time the process for 2 million records `time ./rsheet-create.awk emptyfile > rsheet-data.txt`
-	- [rsheet-process.awk](Example_Files/rsheet-process.awk)
+	- [rsheet-process.awk](../Example_Files/rsheet-process.awk)
 	- `time ./rsheet-process.awk rsheet-data.txt > rsheet-pdata.txt`
 	- Analysing the server logs of [https://semantic.iitm.ac.in/](https://semantic.iitm.ac.in/)
 	- [access-full.log](Example-Files/access-full.log) (80MB)
@@ -552,10 +552,10 @@ L6.4
 	- To print only the date and ip `awk BEGIN{FS=" "}{d=substr($4,2,11);print d, $1} access-head.log`
 	- The date from 5 days ago - `date --date="5 days ago" +%d/%m/%Y`
 	- Use the above date string to extract details from the Apache log book
-	- [apache-log-example-1.awk](Example_Files/apache-log-example-1.awk)
+	- [apache-log-example-1.awk](../Example_Files/apache-log-example-1.awk)
 	- `./apache-log-example-1.awk access-head.log`
 	- Investigate a suspicious ip address using `dig`
 	- `dig -x 136.123.209.54`
 	- `dig +noall +answer -x 34.234.167.93` for a one line output
-	- [apache-log-example-2.awk](Example_Files/apache-log-example-2.awk)
+	- [apache-log-example-2.awk](../Example_Files/apache-log-example-2.awk)
 	- `time ./apache-log-example-2.awk access-full.log > nstats.txt`

@@ -1,0 +1,521 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Week 4 Notes</h3>
+<h4>Software Management</h4>
+<ul>
+<li>Using Package Management Systems </li>
+<li>Tools for installing, updating, removing and managing software</li>
+<li>Install new / updated software across network</li>
+<li>Package - File look up, both ways <ul>
+<li>Which files are given by a particular package and which package contains a given file</li>
+</ul>
+</li>
+<li>Database of packages on the system including versions (compatibility and requirements)</li>
+<li>Dependency checking</li>
+<li>Signature verification tools (to check authenticity of source of the software)</li>
+<li>
+<p>Tools for building packages (to build packages from soure code - particularly true for kernel modules)</p>
+</li>
+<li>
+<p>Package types </p>
+</li>
+<li>Package<ul>
+<li>RPM</li>
+<li>Red Hat<ul>
+<li>CentOS</li>
+<li>Fedora</li>
+<li>Oracle Linux</li>
+</ul>
+</li>
+<li>SUSE Enterprise Linux<ul>
+<li>OpenSUSE</li>
+</ul>
+</li>
+<li>DEB</li>
+<li>Debian<ul>
+<li>Ubuntu</li>
+<li>Mint</li>
+<li>Knoppix</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Commands</li>
+<li><code>lsb_release -a</code> to find version of Operating System</li>
+<li>When searching for packages for this version of the OS you can search by OS code name eg: <code>focal</code></li>
+<li>Architectures</li>
+<li>amd64 | x86_64</li>
+<li>i386 | x86</li>
+<li>arm (RISC5 Sakthi)</li>
+<li>ppc64el | OpenPOWER</li>
+<li>all | noarch |src (not tied to any architecture)</li>
+<li>Commands</li>
+<li><code>uname -a</code> gives the kernel version and the type of architecture.</li>
+<li>Tools <ul>
+<li>Package Type<ul>
+<li>RPM<ul>
+<li>Yellowdog Updater Modifier (yum)<ul>
+<li>Red Hat Package Manager (rpm)</li>
+<li>Dandified YUM (dnf)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>DEB<ul>
+<li>synaptic (GUI)   </li>
+<li>aptitude (Command Line)<ul>
+<li>Advanced Package Tool (apt)<ul>
+<li>dpkg<ul>
+<li>dpkg-deb</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Package managemet in Ubuntu using <code>apt</code></p>
+<ul>
+<li>Inquiring package db<ul>
+<li>Search packages for a keyword<ul>
+<li><code>apt-cache search keyword</code></li>
+</ul>
+</li>
+<li>List all packages<ul>
+<li><code>apt-cache pkgnames</code></li>
+<li><code>apt-cache pkgnames | sort | less</code> for page by page sorted display</li>
+<li><code>apt-cache pkgnames nm</code> for all packages starting with nm</li>
+</ul>
+</li>
+<li>Display package records of a package<ul>
+<li><code>apt-cache show -a package</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Package Names</p>
+<ul>
+<li>Package<ul>
+<li>RPM<ul>
+<li>package-version-release.architecture.rpm</li>
+</ul>
+</li>
+<li>DEB<ul>
+<li>package_version-revision_architecture.deb</li>
+<li>eg : <code>pool/universe/n/nmap/nmap_7.80+dfsg1-2build1_amd64.deb</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Package Priorities<ul>
+<li>required : essential to proper functioning of the system</li>
+<li>important : provides functionality that enables the system to run well</li>
+<li>standard : included in a standard system installation</li>
+<li>optional : can omit if you do not have enough storage</li>
+<li>extra : could conflict with packages with higher priority, has specialized requirements, install only if needed.</li>
+<li>Priority is displayed as <code>extra</code> in the output of <code>apt-cache show nmap</code> or <code>apt-cache show wget</code> for example.</li>
+</ul>
+</li>
+<li>Package Sections<ul>
+<li><a href="https://packages.ubuntu.com/focal/">Package Sections for Ubuntu focal</a></li>
+<li><code>apt-cache show fortunes</code> shows <code>Section : universe/games</code></li>
+</ul>
+</li>
+<li>Checksums<ul>
+<li>For a small change in the original file the checksum is very different. This is useful to chack if the original file has been tampered or not. </li>
+<li>Can be used to verify that nothing has gone wrong to the contents of the file while downloading. </li>
+<li>md5sum <ul>
+<li>128 bit string</li>
+<li><code>md5sum filename</code></li>
+</ul>
+</li>
+<li>SHA1<ul>
+<li>160 bit string</li>
+<li><code>sha1sum filename</code></li>
+</ul>
+</li>
+<li>SHA256<ul>
+<li>256 bit string</li>
+<li><code>sha256sum filename</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>4.2
+* Who can install packages in Linux OS ?
+    - administrators
+    - sudoers in the case of Ubuntu
+    - Only sudoers can install/upgrade/remove packages
+    - a sudo command can be executed by those who are listed in <code>/etc/sudoers</code>
+    - Command <code>sudo cat /etc/sudoers</code> . If the current <code>$USER</code> is not in the sudoers file the incident will be reported.
+    - In the file the users listed under <code># User privilege specification</code> have sudo permission.
+    - sudo attempts and authentication failures get recorded in <code>/var/log/auth.log</code>. View using <code>sudo tail -n 100 /var/log/auth.log</code>
+* When installing a package the system knows the website/server from which the packages have to be downloaded
+    - This information is stored in the folder <code>/etc/apt</code>
+    - Uncommented lines in the file <code>sources.list</code> have the debian/ubuntu sources 
+    - A directory <code>sources.list.d</code> stores sources for third party software. Allows <code>apt update</code> to know new versions to download from repositories stored in these files
+    - Synchronize package overview files - <code>sudo apt-get update</code> fetches updates and keeps them in cache
+    - Upgrade all installed packages - <code>sudo apt-get upgrade</code> upgrades the packages. It lists how many updates are going to be affected and how much data is going to be downloaded.
+    - <code>sudo apt autoremove</code> to remove unused packages that were earlier installed to satisfy a particular dependency but are not needed now.
+    - Install a package - <code>sudo apt-get install packagename</code>
+    - <code>sudo apt-get remove packagename</code> to remove a particular package
+    - <code>sudo apt-get reinstall packagename</code> to fix problems caused by accedential file deletions.
+    - Clean local repository of retreived package files - <code>apt-get clean</code>
+    - Purge package files from the system - <code>apt-get purge package</code>
+* Package management in Ubuntu using <code>dpkg</code>
+    - Allows installation directly from a <code>.deb</code> file. Package management at a lower level.
+    - <code>/var/lib/dpkg</code> has some information about the packages
+        - Files - <code>arch</code>,<code>available</code>,<code>status</code>
+            - <code>cat arch</code> displays the architectures for which packages have been installed on the system - <code>amd64</code>,<code>i386</code>
+            - <code>less available</code> displays list of packages with info. 
+            - <code>less status</code> displays if a particular package is installed or not
+        - Folder - <code>info</code>
+            - contains a set of files for each of the packages that have been installed
+            - <code>ls wget*</code> will give files with information about <code>wget</code>
+                - <code>more wget.conffiles</code>gives location of configuration file 
+                - <code>more wget.list</code> displays list of files that would get installed on the system with the package
+                - <code>more wget.md4sums</code> displays the listof md5sums of the installed files. (Used to catch tampering)
+* Using <code>dpkg</code>
+    - List all packages whose names match the pattern
+        - <code>dpkg -l pattern</code>
+    - List installed files that came from packages
+        - <code>dpkg -L package</code>
+    - Display/Report the status of packages
+        - <code>dpkg -s package</code>
+    - Search installed packages for a file
+        - <code>dpkg -S pattern</code> 
+        - eg : <code>dpkg -S /usr/bin/perl</code> shows the package from which the executable has come. ie : <code>perl-base</code>
+    - To query the dpkg database about all the packages - <code>dpkg-query</code>
+        - Example <code>dpkg-query -W -f='${Section} ${binary:Package}\n' | sort | less</code>
+        - Example where output is filtered <code>dpkg-query -W -f='${Section} ${binary:Package}\n' | grep shells</code>
+* Installing a deb package
+    - <code>dpkg -i package_version-revision_architecture.deb</code>
+    - not a good idea since it may have some dependencies that will have to be taken care of manually
+    - Do not download deb files from unknown sources and install it on the system
+    - By default use package management pointing to a reliable repository
+    - Uninstalling packages using <code>dpkg</code> is NOT recommended. You may be removing a package that is required by many other packages.
+* When compatibility issues cannot be resloved one can use <code>snap</code> or <code>docker</code> as alternatives when you are unable to install a particular version of a package.</p>
+<hr />
+<p>4.3</p>
+<h4>Pattern Matching</h4>
+<ul>
+<li>Regular Expressions <code>regex</code> and <code>grep</code> commands<ul>
+<li>POSIX standard<ul>
+<li>IEEE 1003.1-2001 IEEE Standard for IEEE Information Technology – Portable Operating System Interface (POSIX(TM))</li>
+<li><a href="https://standards.ieee.org/standard/1003_1-2001.html">Refer</a></li>
+</ul>
+</li>
+<li>POSIX defines regular expressions to be of 2 different types - Basic and Extended.</li>
+</ul>
+</li>
+<li>Regex<ul>
+<li>regex is a pattern template to filter text</li>
+<li>BRE: POSIX Basic Regular Expression engine</li>
+<li>ERE: POSIX Extended Regular Expression engine</li>
+</ul>
+</li>
+<li>Why learn regex?<ul>
+<li>PRocess some input from the user or perform some string operations.</li>
+<li>Languages: Java, Perl, Python, Ruby, ...</li>
+<li>Tools: grep, sed, awk, ...</li>
+<li>Applications: MySQL, PostgreSQL, ...</li>
+</ul>
+</li>
+<li>Usage<ul>
+<li><code>grep ‘pattern’ filename</code> - to operate on every line in the file</li>
+<li><code>command | grep ‘pattern’</code><ul>
+<li>the <code>grep</code> command operates line after line. A common feature in many utilities in linux.</li>
+<li>enclose pattern in single quotes </li>
+</ul>
+</li>
+<li>Default engine: BRE</li>
+<li>Switch to use ERE in 2 ways:<ul>
+<li><code>egrep ‘pattern’ filename</code></li>
+<li><code>grep -E ‘pattern’ filename</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h3>Special characters (BRE &amp; ERE)</h3>
+</li>
+</ul>
+<p>|  Character    | Description   |
+|---    |---    |
+|  <code>.</code>  |   Any single character except null or newline     |
+|  <code>*</code>  |   Zero or more of the preceding character / expression    |
+|  <code>[]</code>     |   Any of the enclosed characters; hyphen (-) indicates character range    |
+|  <code>^</code>  |   Anchor for beginning of line or negation of enclosed characters |
+|  <code>$</code>  |   Anchor for end of line  |
+|  <code>\</code>  |   Escape special characters   |</p>
+<ul>
+<li>
+<h3>Special characters (BRE)</h3>
+</li>
+</ul>
+<p>|  Character    | Description   |
+|---    |---    |
+|  <code>\{n,m\}</code>    |   Range of occurances of preceding pattern at least n and utmost m times  |
+|  <code>\( \)</code>  |   Grouping of regular expressions     |</p>
+<ul>
+<li>
+<h3>Special characters (ERE)</h3>
+</li>
+</ul>
+<p>|  Character    | Description   |
+|---    |---    |
+|  <code>{n,m}</code>  |   Range of occurances of preceding pattern at least n and utmost m times  |
+|  <code>()</code>     |   Grouping of regular expressions     |
+|  <code>+</code>  |   One or more of preceding character / expression     |
+|  <code>?</code>  |   Zero or one of preceding character / expression     |
+|  <code>\|</code>     |   Logical OR over the patterns    |</p>
+<ul>
+<li>
+<h3>Character Classes</h3>
+</li>
+</ul>
+<p>|  Class    | Description   |
+|---    |---    |
+|  <code>[[:print:]]</code>    |   Printable   |
+|  <code>[[:alnum:]]</code>    |   Alphanumeric    |
+|  <code>[[:alpha:]]</code>    |   Alphabetic  |
+|  <code>[[:lower:]]</code>    |   Lower case  |
+|  <code>[[:upper:]]</code>    |   Upper case  |
+|  <code>[[:digit:]]</code>    |   Decimal digits  |
+|  <code>[[:blank:]]</code>    |   Space / Tab     |
+|  <code>[[:space:]]</code>    |   Whitespace  |
+|  <code>[[:punct:]]</code>    |   Punctuation     |
+|  <code>[[:xdigit:]]</code>   |   Hexadecimal     |
+|  <code>[[:graph:]]</code>    |   Non-space   |
+|  <code>[[:cntrl:]]</code>    |   Control characters  |</p>
+<ul>
+<li>
+<p>Backreferences</p>
+<ul>
+<li><code>\1</code> through <code>\9</code></li>
+<li><code>\n</code> matches whatever was matched by nth earlier paranthesized subexpression</li>
+<li>A line with two occurances of hello will be matched using: <code>\(hello\).*\1</code></li>
+</ul>
+</li>
+<li>
+<h3>BRE operator precedence</h3>
+</li>
+</ul>
+<p>| Highest to Lowest |
+|---    |
+|  [..] [==] [::] char collation    |
+|  \metachar    |
+|  [ ] Bracket expansion    |
+|  ( ) \n subexpresions and backreferences    |
+|  * { } Repetition of preceding single char regex    |
+|  Concatenation    |
+|  ^ $ anchors  |</p>
+<ul>
+<li>
+<h3>ERE operator precedence</h3>
+</li>
+</ul>
+<p>| Highest to Lowest |
+|  ---  |
+|  [..] [==] [::] char collation    |
+|  \metachar    |
+|  [ ] Bracket expansion    |
+|  ( ) grouping     |
+|  * + ? { } Repetition of preceding regex  |
+|  Concatenation    |
+|  ^ $ anchors  |
+|  \| alternation   |</p>
+<ul>
+<li>
+<h3>Examples using grep</h3>
+<ul>
+<li><a href="../Example_Files/names.txt">Example File names.txt (Containing Names/Roll-No)</a></li>
+<li>Basic use<ul>
+<li><code>grep 'Raman' names.txt</code> matches line with Raman Singh</li>
+<li><code>cat names.txt | grep 'ai'</code> matches line with Snail</li>
+</ul>
+</li>
+<li>Usage of <code>.</code><ul>
+<li><code>cat names.txt | grep 'S.n'</code> matches lines with Singh and Sankaran</li>
+</ul>
+</li>
+<li>Usage of <code>$</code><ul>
+<li><code>cat names.txt | grep '.am$'</code> matches lines that end with xam</li>
+</ul>
+</li>
+<li>Escaping a <code>.</code><ul>
+<li><code>cat names.txt | grep '\.'</code> matches lines that have a <code>.</code></li>
+</ul>
+</li>
+<li>Using anchors at the begining<ul>
+<li><code>cat names.txt | grep '^M'</code> matches lines begining with m</li>
+</ul>
+</li>
+<li>Case insensitive matching with the <code>i</code> flag<ul>
+<li><code>cat names.txt | grep -i '^e'</code> matches lines begining with e or E.</li>
+</ul>
+</li>
+<li>Word boundaries <code>\b</code><ul>
+<li><code>cat names.txt | grep 'am\b'</code> matches lines with words that end with 'am'</li>
+</ul>
+</li>
+<li>Use of square brackets <code>[]</code> to give options<ul>
+<li><code>cat names.txt | grep 'M[ME]'</code> matches lines containing 'MM' or 'ME'</li>
+<li><code>cat names.txt | grep '\bS.*[mn]'</code> matches lines containing words begining with S and ending with m or n.</li>
+<li><code>cat names.txt | grep '[aeiou][aeiou]'</code> matches lines that have 2 vowels side by side</li>
+<li><code>cat names.txt | grep 'B90[1-4]'</code> matches words begining with B90 and ending with range 1-4. </li>
+<li><code>cat names.txt | grep 'B90[^1-4]'</code> matches words begining with B90 and ending with characters other than the range 1-4. A hat inside square brackets implies negation</li>
+</ul>
+</li>
+<li>Specifying occurances using escaped braces<ul>
+<li><code>cat names.txt | grep 'M\{2\}'</code> matches lines which have 'MM'</li>
+<li><code>cat names.txt | grep 'M\{1,2\}'</code> matches lines which have one or 2 'M's</li>
+</ul>
+</li>
+<li>Grouping patterns that are matched using parenthesis. Repeating whatever is matched by using <code>\1</code><ul>
+<li><code>cat names.txt | grep '\(ma\)'</code> matches lines containing 'ma'</li>
+<li><code>cat names.txt | grep '\(ma\).*\1'</code> matches a pattern begining with 'ma' and ending with 'ma' eg: U'mair Ahma'd. The <code>\1</code> back-references the first parenthesis.</li>
+<li><code>cat names.txt | grep '\(.a\).*\1'</code> matches a pattern like 'Mary Ma'nickam</li>
+<li><code>cat names.txt | grep '\(a.\)\{3\}'</code> matches a pattern like S'agayam'</li>
+</ul>
+</li>
+<li>Using Extended Regular Expression Engine<ul>
+<li><code>cat names.txt | egrep 'M+'</code> will match lines where M occures one or more times.</li>
+<li><code>cat names.txt | egrep '^M+'</code> will match lines where M occures one or more times at the begining of a line.</li>
+<li><code>cat names.txt | egrep '^M*'</code><ul>
+<li><code>cat names.txt | egrep '^M*a'</code> matches lines where 'M' may or may not occur followed by 'a'</li>
+<li><code>cat names.txt | egrep '^M.*a'</code> matches lines where 'M' has to occur at the begining of a line followed by any number of characters and ending with 'a'</li>
+<li>Watch out for the interpretation of <code>*</code></li>
+</ul>
+</li>
+<li><code>cat names.txt | egrep '(ma)+'</code> 'ma' could occur one or more times.</li>
+<li><code>cat names.txt | egrep '(ma)*'</code> 'ma' could occur zero or more times.</li>
+</ul>
+</li>
+<li>Use of pipe as an alternation between 2 patterns of strings to be matched<ul>
+<li><code>cat names.txt | egrep '(ED|ME)'</code> matches lines containing 'ED' or 'ME'</li>
+<li><code>cat names.txt | egrep '(Anu|Raman)'</code> matches lines containing 'Anu' or 'Raman'. Length of string on both sides of pipe need not be the same.</li>
+<li><code>cat names.txt | egrep '(am|an)$'</code> matches lines containing 'am' or 'an' at the end.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>4.4
+* ### More Examples using grep and egrep
+    - Get package names that are exactly 4 characters long
+        - <code>dpkg-query -W -f'${Section} ${binary:Package}\n' | egrep ' .{4}$'</code>
+    - Get package names that are from the math section
+        - <code>dpkg-query -W -f'${Section} ${binary:Package}\n' | egrep '^math'</code>
+    - <a href="../Example_Files/chartype.txt">Example File chartype.txt (Containing few lines with control character)</a><br />
+        - control character inserted using <code>echo $'\cc' &gt;&gt; chartype.txt</code>
+    - get lines that have an alphanumeric character at the begining of the line
+        - <code>cat chartype.txt | grep '^[[:alnum:]]'</code>
+    - get lines that have digits at the end of the line
+        - <code>cat chartype.txt | grep '[[:digit:]]$'</code>
+    - get lines that have a ctrl character
+        - <code>cat chartype.txt | grep '[[:ctrl:]]'</code>
+        - <code>cat chartype.txt | grep -v '[[:cntrl:]]'</code> will show the reverse including the empty lines
+    - get lines that do not have a ctrl character
+        - <code>cat chartype.txt | grep '[^[:cntrl:]]'</code> (This does not work as intended)
+    - get lines that have printable characters (exclude blank lines)
+        - <code>cat chartype.txt | grep '[[:print:]]'</code>
+    - get lines that have blank space characters (exclude blank lines)
+        - <code>cat chartype.txt | grep '[[:blank:]]'</code>
+    - <code>[[:graph:]]</code> is used to match any non space character
+    - To skip blank lines
+        - <code>cat chartypes.txt | egrep -v '^$'</code> Here <code>-v</code> excludes and <code>'^$'</code> captures empty lines
+    - Identify a line with a 12 digit number
+        - <code>egrep '[[:digit:]]{12}' patterns.txt</code>
+    - Identify a line with a 6 digit number (Use word boundaries)
+        - <code>egrep '\b[[:digit:]]{6}\b' patterns.txt</code>
+    - Match lines containing Roll Number of the form MM22B001
+        - <code>egrep '\b[[:alpha:]]{2}[[:digit:]]{2}[[:alpha:]][[:digit:]]{3}\b' patterns.txt</code>
+    - Match urls without the http
+        - <code>egrep '\b[[:alnum:]]+\.[[:alnum:]]+\b' patterns.txt</code>
+    - <strong>Trimming text</strong>
+        - top to bottom using <code>head</code> and <code>tail</code>
+        - sidways or horizontal trimming of lines using <code>cut</code>
+            - <code>cut -c 1-4 fields.txt</code> displays only first 4 characters. Can also use <code>-4</code> for begining to 4th place or <code>2-</code> to cut from 2nd place to end.
+            - <code>cat fields.txt | cut -d " " -f 1</code> - This uses " " as a delimiter <code>-d</code> and prints only the first field <code>-f 1</code>
+            - <code>cat fields.txt | cut -d ' ' -f 1-2</code> - to get both fields
+            - Capture <code>hello world</code> from <code>1234;hello world,line 1</code>
+                - <code>cat fields.txt | cut -d ';' -f 2 | cut -d "," -f 1</code>
+                - <code>egrep ';.*,' fields.txt</code> (To trim pass the output of grep to <code>sed</code>)
+            - Combining this with top to bottom trimming
+                - <code>cat fields.txt | cut -d ';' -f 2 | cut -d "," -f 1 | head -n 2 | tail -n 1</code></p>
+<ul>
+<li>
+<h3>Own experiments using regex</h3>
+<ul>
+<li>Get strictly alphanumeric words<ul>
+<li><code>cat test.txt | egrep '\b([a-z]+[0-9]+|[0-9]+[a-z]+)\b'</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h3>REPLIT Code with Us session</h3>
+<ul>
+<li>Getting files with a specific permission pattern from a file<ul>
+<li><code>cat lsinfo.txt | grep 'rw-r--r--' ;</code></li>
+</ul>
+</li>
+<li>Get all files excluding directories in lsinfo.txt whose last modified date is in January<ul>
+<li><code>cat lsinfo.txt | grep '^[^d].*Jan'</code></li>
+</ul>
+</li>
+<li>To count the number of lines that starts with a capital letter and contains the word it (case-sensitive)<ul>
+<li><code>cat twocities.txt | grep -c '^[[:upper:]].*\bit\b'</code></li>
+</ul>
+</li>
+<li>to display all the lines that does not contain the word "we" in it<ul>
+<li><code>cat twocities.txt | egrep -v '\bwe\b'</code></li>
+</ul>
+</li>
+<li>using cut to display only the countries and its capitals of file.txt in the format Country, Capital (eg in file.txt : India, New Delhi; Asia)<ul>
+<li><code>cat file.txt | cut -d ';' -f 1</code></li>
+</ul>
+</li>
+<li>all the countries in the file file.txt sorted alphabetically by name in reverse order<ul>
+<li><code>cat file.txt | cut -d ',' -f 1 | sort -r</code></li>
+</ul>
+</li>
+<li>cut command to extract the continents (including the one white space in the beginning) of the first 5 lines of file.txt and store it in another file named continent.txt<ul>
+<li><code>head -n 5 file.txt | cut -d ';' -f 2 &gt; continent.txt</code></li>
+</ul>
+</li>
+<li>list the names of all the c++ files in the current directory which contains a line such that the line starts with the string void main() and ends with the character {. There should be one or more spaces/tabs between the characters { and ).<ul>
+<li><code>egrep '^void[[:space:]]main\(\)[[:space:]]+{$' *.cpp | cut -d '.' -f 1</code></li>
+<li><code>grep '^void[[:space:]]main()[[:space:]][[:space:]]*{$' *.cpp | cut -d '.' -f 1</code></li>
+</ul>
+</li>
+<li>print the count of these files in the following line<ul>
+<li><code>egrep -l '^void[[:space:]]main\(\)[[:space:]]+{$' *.cpp |tee /dev/tty | wc -l</code> </li>
+<li><code>|tee /dev/tty</code> is used to print the output to terminal and also pipe the output to the next command.</li>
+<li><code>-l</code> flag for <code>grep</code> and <code>egrep</code> prints the name of each input file that matches </li>
+</ul>
+</li>
+<li>command to list all the packages installed on your machine and their versions in the format Package Version in a sorted manner<ul>
+<li><code>dpkg-query -W -f='${Package} ${Version}\n' | sort</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+{% endblock %}

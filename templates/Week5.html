@@ -1,0 +1,388 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Week 5 Notes</h3>
+<h4>Command Line Editors</h4>
+<ul>
+<li>Working with text files in the terminal</li>
+<li>Editors</li>
+<li>Line Editors (Present in almost every flavour of UNIX / GNU Linux)<ul>
+<li><code>ed</code></li>
+<li><code>ex</code> (improved version of ed)</li>
+</ul>
+</li>
+<li>Terminal Editors<ul>
+<li><code>pico</code> (Came along with the pine email application)</li>
+<li><code>nano</code> (Features added to pico)</li>
+<li><code>vi</code> (most popular and complex)</li>
+<li><code>emacs</code> </li>
+</ul>
+</li>
+<li>GUI Editors<ul>
+<li>KDE</li>
+<li><code>kate</code></li>
+<li><code>kwrite</code></li>
+<li>GNOME</li>
+<li><code>gedit</code></li>
+<li>sublime</li>
+<li>atom (popular among github users)</li>
+<li>brackets (Popular for those writing html code)</li>
+</ul>
+</li>
+<li>IDE<ul>
+<li>eclipse</li>
+<li>Bluefish</li>
+<li>NetBeans</li>
+</ul>
+</li>
+<li>Features of text editors</li>
+<li>Scrolling , view modes, current position in file</li>
+<li>Navigation (char,word,line,pattern)</li>
+<li>Insert, Replace, Delete</li>
+<li>Cut-Copy-Paste</li>
+<li>Search-Replace</li>
+<li>Language-aware syntax highlighting</li>
+<li>Key-maps, init scripts, macros</li>
+<li>Plugins</li>
+<li>Both <code>vi</code> and <code>emacs</code> editors satisfy all the above requirements</li>
+</ul>
+<h5>ed commands</h5>
+<p>|  Action   |  Command  |
+|---    |---    |
+|  Show the Prompt  |  <code>P</code>  |
+|  Command Format   |  <code>[addr[,addr]]cmd[params]</code>   |
+|  Commands for location    |  <code>2</code> <code>.</code> <code>$</code> <code>%</code> <code>+</code> <code>-</code> <code>,</code> <code>;</code> <code>/RE/</code>   |
+|  Commands for editing     |  <code>f</code> <code>p</code> <code>a</code> <code>c</code> <code>d</code> <code>i</code> <code>j</code> <code>s</code> <code>m</code> <code>u</code>  |
+|  Execute a Shell command  |  <code>!command</code>   |
+|   edit a file |  <code>e filename</code>     |
+|  read file contents into buffer   |  <code>r filename</code>     |
+|  read command output into buffer  |  <code>r !command</code>     |
+|  write buffer to filename     |  <code>w filename</code>     |
+|  quit     |  <code>q</code>  |</p>
+<h5>Using <code>ed</code></h5>
+<ul>
+<li><code>man ed</code> doesn't give much info . Use <code>info ed</code></li>
+<li><code>ed test.txt</code> shows a number indicating number of bytes read into memory</li>
+<li><code>1</code> displays the first line</li>
+<li><code>$</code> displays the last line</li>
+<li><code>,p</code> and <code>%p</code> shows the contents of the entire buffer</li>
+<li><code>2,3p</code> range - 2nd to 3rd line</li>
+<li><code>/hello/</code> matches and shows first occurance of the pattern</li>
+<li><code>+</code> and <code>-</code> to scroll by line</li>
+<li><code>;p</code> from current position to end of buffer</li>
+<li><code>.</code> displays the current line</li>
+<li><code>!date</code> running the date command within <code>ed</code></li>
+<li><code>r !date</code> read output of date command to buffer at current position</li>
+<li><code>w</code> writes the file (saves it)</li>
+<li><code>d</code> delete current line</li>
+<li><code>a</code> to append after current line. Press <code>.</code> and <code>enter</code> when done</li>
+<li><code>s/appended/Appended/</code> Substitute - Search and replace from current line.</li>
+<li><code>f</code> shows the name of the file being edited</li>
+<li><code>p</code> shows the contents of the current line </li>
+<li><code>j</code> for joining lines . Usage <code>5,6j</code> to join line 5 and 6</li>
+<li><code>m</code> to move a line to a particular position. Usage <code>m1</code> to move current line to just below line 1. <code>m0</code> to move it right to the top</li>
+<li><code>u</code> to undo previous change</li>
+<li>To add something to every line <code>%s/\(.*\)/PREFIX \1/</code><ul>
+<li><code>\1</code> is the back substitution</li>
+<li><code>\(.*\)</code> indicates any character that can be matched</li>
+<li><code>PREFIX</code> is the replacement string</li>
+</ul>
+</li>
+<li><code>3,5s/PREFIX/prefix/</code> substitutes prefix for PREFIX from line 3 to 5</li>
+</ul>
+<h5>Commands for editing in ed / ex</h5>
+<p>|  Command  |  Action   |
+|---    |---    |
+|  <strong>f</strong>    |   show name of <strong>f</strong>ile being edited  |
+|  <strong>p</strong>    |  <strong>p</strong>rint the current line   |
+|   <strong>a</strong>   |  <strong>a</strong>ppend at the current line   |
+|  <strong>c</strong>    |  <strong>c</strong>hange the line  |
+|  <strong>d</strong>    |  <strong>d</strong>elete the current line  |
+|  <strong>i</strong>    |  <strong>i</strong>nsert line at the current position  |
+|   <strong>j</strong>   |  <strong>j</strong>oin lines   |
+|  <strong>s</strong>    |  <strong>s</strong>earch for regex pattern     |
+|  <strong>m</strong>    |  <strong>m</strong>ove current line to position    |
+|  <strong>u</strong>    |  <strong>u</strong>ndo latest change   |</p>
+<h5>Using nano</h5>
+<ul>
+<li><a href="../Command_line_editors/nano.md">Link</a></li>
+</ul>
+<h5>Using vi</h5>
+<ul>
+<li><a href="../Command_line_editors/vi.md">Link</a></li>
+</ul>
+<h5>Using emacs</h5>
+<h2>* <a href="../Command_line_editors/emacs.md">Link</a></h2>
+<h4>Scripts</h4>
+<ul>
+<li>Software Tools Principles (Ref: Classic Shell Scripting – Arnold Robbins &amp; Nelson H.F. Beebe)</li>
+<li>Do one thing well</li>
+<li>Process lines of text, not binary</li>
+<li>Use regular expressions</li>
+<li>Default to standard I/O</li>
+<li>Don’t be chatty</li>
+<li>Generate same output format accepted as input</li>
+<li>Let someone else do the hard part</li>
+<li>Detour to build specialized tools</li>
+</ul>
+<p>```bash</p>
+<h1>! interpreter</h1>
+<h1>comments</h1>
+<p>commands
+loops
+variables
+case statements
+functions
+<code>* program - shell , awk , sed , python , ruby , perl
+* script
+  - sourced
+    - `. scriptname` `source scriptname`
+    - PID same as the current shell commands are executed one after other shell environment continues
+    - Used to prepare environment
+  - executed
+    - `./scriptname`
+    - Needs execution permission
+    - New process gets created to run script
+    - PID is not same as the shell commands are executed one after other
+    - New environment lost after return
+    - Used to create a new functionality
+* Script location
+  - Use absolute path or relative path while executing the script
+  - Keep the script in folder listed in $PATH
+  - Watch out for the sequence of directories in $PATH
+* bash environment
+  - Login shell
+    -</code>
+      /etc/profile
+      ~/.bash_profile
+      ~/.bash_login
+      ~/.profile
+      <code>- Non-login shell
+    -</code>
+      /etc/bash.bashrc
+      ~/.bashrc
+      <code>* Output from shell scripts
+  - `echo`
+    - simple
+    - terminates with a newline if -n option not given
+    - `echo My home is $HOME`
+  - `printf`
+    - supports format specifiers like in C
+    - `printf “My home is %s\n” $HOME`
+* Input to shell scripts
+  - `read var`
+    - string read from command line is stored in `$var`
+* Shell Script arguments
+  - `$0` name of the shell program
+  - `$#` number of arguments passed
+  - `$1` or `${1}` first argument
+  - `${11}` eleventh argument
+  - `$*` or `$@` all arguments at once
+  - `“$*”` all argument as a single string
+  - `“$@”` all argument as a separate strings
+  - example : `./myscript.sh -l arg2 -v arg4`
+* Command substitution
+  -</code>var=<code>command</code> <code>- `var=$(command)`
+    - command is executed and the output is substituted.
+    - Here, the variable var will be assigned with that output.
+* for do loop
+  -</code>
+    for var in list
+    do
+      commands
+    done
+    ```
+  - commands are executed once for each item in the list
+  - space is the field delimiters
+  - set IFS if required. If the field separator is different from space.</p>
+<ul>
+<li>case statement</li>
+<li><code>case var in
+    pattern1)
+      commands
+      ;;
+    pattern2)
+      commands
+      ;;
+    esac</code></li>
+<li>commands are executed each pattern matched for var in the options</li>
+<li>if loop</li>
+<li><code>if condition
+    then
+      commands
+    fi</code></li>
+<li><code>if condition; then
+      commands
+    fi</code></li>
+<li>commands are executed only if condition returns true</li>
+<li>Conditions</li>
+<li>test expression<ul>
+<li><code>test -e file</code></li>
+</ul>
+</li>
+<li><code>[ exprn ]</code><ul>
+<li><code>[ -e file ]</code></li>
+</ul>
+</li>
+<li><code>[[ exprn ]]</code><ul>
+<li><code>[[ $ver == 5.*]]</code></li>
+</ul>
+</li>
+<li><code>(( exprn ))</code><ul>
+<li><code>(( $v ** 2 &gt; 10 ))</code></li>
+</ul>
+</li>
+<li>command<ul>
+<li><code>wc -l file</code></li>
+</ul>
+</li>
+<li>pipeline<ul>
+<li><code>who|grep “joy” &gt; /dev/null</code></li>
+</ul>
+</li>
+<li>For negation <code>! condition</code></li>
+<li>String Comparison , Numeric, file comparison</li>
+<li>expressions<ul>
+<li>unary</li>
+<li>binary</li>
+</ul>
+</li>
+<li>test numeric comparisons</li>
+<li>Table
+    |  Comparison | Description  |
+    |---|---|
+    |   <code>$n1 -eq $n2</code>   |   Check if n1 is equal to n2  |
+    |   <code>$n1 -ge $n2</code>   |   Check if n1 is greater than or equal to n2  |
+    |   <code>$n1 -gt $n2</code>   |   Check if n1 is greater than n2  |
+    |   <code>$n1 -le $n2</code>   |   Check if n1 is less than or equal to n2 |
+    |   <code>$n1 -lt $n2</code>   |   Check if n1 is less than n2 |
+    |   <code>$n1 -ne $n2</code>   |   Check if n1 is not equal to n2  |</li>
+<li>test string comparisons</li>
+<li>Table
+    |  Comparison | Description  |
+    |---|---|
+    |   <code>$str1 = $str2</code> |   Check if str1 is same as str2   |
+    |   <code>$str1 != $str2</code>    |   Check if str1 is not same as str2   |
+    |   <code>$str1 &lt; $str2</code> |   Check if str1 is less than str2 |
+    |   <code>$str1 &gt; $str2</code> |   Check if str1 is greater than str2  |
+    |   <code>-n $str2</code>  |   Check if str1 has length greater than zero  |
+    |   <code>-z $str2</code>  |   Check if str1 has length of zero    |</li>
+<li>Unary file comparisons</li>
+<li>Table
+    |  Comparison | Description  |
+    |---|---|
+    |   <code>-e file</code>   |   Check if file exists    |
+    |   <code>-d file</code>   |   Check if file exists and is a directory |
+    |   <code>-f file</code>   |   Check if file exists and is a file  |
+    |   <code>-r file</code>   |   Check if file exists and is readable    |
+    |   <code>-s file</code>   |   Check if file exists and is not empty   |
+    |   <code>-w file</code>   |   Check if file exists and is writable    |
+    |   <code>-x file</code>   |   Check if file exists and is executable  |
+    |   <code>-O file</code>   |   Check if file exists and is owned by current user   |
+    |   <code>-G file</code>   |   Check if file exists and default group is same as that of current user  |</li>
+<li>Binary file comparisons</li>
+<li>Table
+    |  Comparison | Description  |
+    |---|---|
+    |   <code>file1 -nt file2</code>   |   Check if file1 is newer than file2  |
+    |   <code>file1 -ot file2</code>   |   Check if file1 is older than file2  |</li>
+<li>while do loop</li>
+<li><code>while condition
+    do
+      commands
+    done</code></li>
+<li>commands are executed only if condition returns true</li>
+<li>until do loop</li>
+<li><code>until condition
+    do
+      commands
+    done</code></li>
+<li>commands are executed only if condition returns false</li>
+<li>functions</li>
+<li>definition</li>
+<li><code>myfunc()
+    {
+      commands
+    }</code></li>
+<li>call</li>
+<li><code>myfunc</code></li>
+<li><code>commands</code> are executed eachtime <code>myfunc</code> is called</li>
+<li>Definitions must be before the calls</li>
+<li>Demo</li>
+<li><code>bash
+    #! /bin/bash
+    # s1.sh is my first script
+    echo I am invoked as 
+    echo $0
+    echo hello world
+    echo the PID of the process running this script is :
+    echo $$
+    ps --forest
+    export myvar=MYVAR
+    echo $myvar</code></li>
+<li>Source it using <code>. s1.sh</code> or <code>source s1.sh</code>. This displays the same PID as the Bash terminal</li>
+<li>Executing this using <code>./s1.sh</code> displays an error as there is no executable permission.</li>
+<li>Provide executable permission using <code>chmod 755 s1.sh</code> and then run using <code>./s1.sh</code></li>
+<li>Ths time the PID is different. </li>
+<li><code>ps --forest</code> shows all the processes that are running and the spawned processes.</li>
+<li>A variable set during execution in a subshell will not be available in the parent shell. If the script is sourced the variable will be available.</li>
+<li><code>$0</code> displays which ever way the script has been invoked (absolute or relative path or just the name of the script)</li>
+<li><code>./s1.sh -l arg2</code> will show <code>-l</code> as <code>$1</code> and <code>arg2</code> as <code>$2</code></li>
+<li><code>bash
+    #! /bin/bash
+    # s1.sh modified script
+    echo Number of arguments
+    echo $#
+    echo First argument
+    echo $1
+    echo Second argument
+    echo $2
+    if test $1 = $2;
+    then
+      echo The arguments are the same
+    fi</code></li>
+<li>Executing the above script using <code>./s1.sh hello hello</code> will say that the arguments are the same.</li>
+<li><code>bash
+    #! /bin/bash
+    echo use of for loop
+    for i in arg1 arg2 arg3
+    do
+      echo $i
+    done</code></li>
+<li>The above script just prints arg1,arg2 and arg3 on 3 lines</li>
+<li><code>bash
+    #! /bin/bash
+    echo use of for loop
+    for i in file_{1..9}
+    do
+      echo $i
+    done</code></li>
+<li>prints file_1,file_2 ... file_9 </li>
+<li><code>bash
+    #! /bin/bash
+    echo use of for loop
+    for i in file_{A..D}{1..9}
+    do
+      echo $i
+    done</code></li>
+<li>prints 36 lines</li>
+<li><code>bash
+    #! /bin/bash
+    echo use of for loop
+    for i in $(ls /bin/z*)
+    do
+      echo $i
+    done</code></li>
+<li>shows each file in bin directory starting with z</li>
+<li><code>file znew | grep "shell script"</code> identifies whether the file passed (in bin) is a shell script</li>
+<li><code>bash
+    #! /bin/bash
+    echo Shell Scripts in bin directory
+    for i in $(ls /bin)
+    do
+      #echo /bin/$i
+      file /bin/$i | grep "shell script"
+    done</code></li>
+<li>Prints the files which are shell scripts in the bin directory</li>
+</ul>
+{% endblock %}

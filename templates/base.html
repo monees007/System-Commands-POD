@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>System Commands</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/style.css') }}">
+</head>
+<body>
+<div class="wrapper">
+    <header>
+        <nav class="navbar">
+            <h1 class="header">System Commands</h1>
+            <p class="header">site.description</p>
+
+            <ul>
+                {% for i in range(9) %}
+                <li class="download"><a class="buttons" href="/notes/{{ i }}">{{ weekl[i] }}</a></li>
+                {% endfor %}
+                <li><a class="buttons github" href="https://github.com/cheriangeorge/System-Commands-course">Repository</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+
+        </nav>
+    </header>
+    <section>
+        {% block content %}
+        {% endblock %}
+    </section>
+</div>
+</body>
+</html>

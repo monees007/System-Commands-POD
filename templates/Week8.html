@@ -1,0 +1,434 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Week 8</h3>
+<h4>Knowing your hardware</h4>
+<h6>Hardware items</h6>
+<ul>
+<li>CPU</li>
+<li>Storage &amp; Partitions</li>
+<li>Graphics Card</li>
+<li>Memory Modules</li>
+<li>Battery &amp; status</li>
+<li>Network devices &amp; configuration</li>
+</ul>
+<h6>Packages to install</h6>
+<ul>
+<li><code>clinfo</code></li>
+<li><code>coreutils</code></li>
+<li><code>dmidecode</code></li>
+<li><code>fdisk</code></li>
+<li><code>hardinfo</code></li>
+<li><code>hdparm</code></li>
+<li><code>hwinfo</code></li>
+<li>Will probe hardware and show output on the screen. Information about PCI, partitions, keyboard, tablet, earphones etc..</li>
+<li><code>lshw</code></li>
+<li>List hardware. Output is in various sections. You can choose a particular section eg : <code>lshw -c display</code> or <code>lshw -c processor</code> or <code>lshw -c memory</code></li>
+<li><code>memtester</code></li>
+<li><code>net-tools</code></li>
+<li><code>pciutils</code></li>
+<li><code>procps</code></li>
+<li><code>sysstat</code></li>
+<li><code>upower</code></li>
+<li>
+<p><code>util-linux</code></p>
+</li>
+<li>
+<p>Demo</p>
+</li>
+<li><code>cat /proc/cpuinfo</code> gives information about the CPU.</li>
+<li><code>cat /proc/partitions</code> gives partition information. The loop partitions are meant for snap packages</li>
+<li><code>lsblk -o NAME,SIZE</code> gives information about the number of block devices that are available.</li>
+<li><code>lspci</code> gives the list of PCI devices connected to the computer using the PCI bus.</li>
+<li><code>free</code> gives details about the amount of memory used. It is a practice to have double the size of the memory as swap</li>
+<li><code>sudo dmidecode --type memory</code> gives information about the memory and modules.</li>
+<li><code>hardinfo</code> is a GUI utility</li>
+<li><code>clinfo</code> gives information about the graphics card. </li>
+<li><code>upower -e</code> to know about the battery status. This will give a list.Choose the one that says battery and execute <code>upower -i /org/freedesktop/UPower/devices/battery_BAT0</code> for example.</li>
+<li><code>sudo hdparm -Tt /dev/sda</code> runs diagnostics on the ssd or hdd. Timing cached reads and buffered disk reads.</li>
+<li><code>iostat -dx /dev/sdb</code> gives information about speeds of various disks.</li>
+<li><code>ifconfig</code> is a network utility that gives information about ethernet / loopback / wifi adapter.</li>
+</ul>
+<hr />
+<h4>Prompt strings</h4>
+<ul>
+<li>Context for prompt strings</li>
+<li><code>bash</code>,<code>dash</code>, <code>zsh</code>, <code>ksh</code>, <code>csh</code></li>
+<li><code>python</code></li>
+<li><code>octave</code> - Mathlab compatible numerical package</li>
+<li><code>gnuplot</code> - Plotting tool</li>
+<li>
+<p><code>sage</code> - symbolic cumputing package. Perhaps better than Mathematica</p>
+</li>
+<li>
+<p>bash prompts</p>
+</li>
+<li>PS1 : primary prompt string : <code>$</code></li>
+<li>PS2 : secondary prompt for multi-line input : <code>&gt;</code></li>
+<li>PS3 : prompt string in select loops : <code>#?</code></li>
+<li>PS4 : prompt srting for execution trace : <code>+</code>
+Explanation: There are 4 bash prompts that are configured. What we see is normally the primary prompt when we open the shell. PS2 is shown when a command is incomplete. PS3 is shown when we run a bash script in a select loop. PS4 is shown when every command that is executed is displayed on the screen - when we use the option <code>set -x</code></li>
+<li>Escape sequences</li>
+</ul>
+<p>| -  | Description  |
+|---|---|
+|   <code>\A</code>    |   Current time in 24-hour as hh:mm    |
+|   <code>\u</code>    |   Current user’s username |
+|   <code>\d</code>    |   Date in “weekday month day” format  |
+|   <code>\w</code>    |   Current directory   |
+|   <code>\h</code>    |   Hostname upto first period  |
+|   <code>\W</code>    |   Basename of current directory   |
+|   <code>\H</code>    |   Complete hostname   |
+|   <code>\#</code>    |   Current command number  |
+|   <code>\s</code>    |   Name of the shell   |
+|   <code>\$</code>    |   If uid is 0, # else $   |
+|   <code>\t</code>    |   Current time in 24-hour as hh:mm:ss |
+|   <code>\@</code>    |   Current time in 12-hour a.m/p.m |
+|   <code>\T</code>    |   Current time in 12-hour as hh:mm:ss |
+|   <code>\\</code>    |   A literal \ character   |</p>
+<p><code>\u@\h:\w\$</code> - This is the default value of PS1. Username @ machine name : current dir $ if user is not superuser</p>
+<p>To change what is displayed in the prompt string.</p>
+<ul>
+<li>Python command line</li>
+<li>ps1 and ps2 are defined in the module sys</li>
+<li>Change <code>sys.ps1</code> and <code>sys.ps2</code> if needed</li>
+<li>Override <code>__str__</code> method to have dynamic prompt
+<code>&gt;&gt;&gt;</code> Default python command prompt</li>
+</ul>
+<p>Demo
+- <code>echo $PS1</code> - gives <code>\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$</code>
+- It can be changed <code>PS1="\u@\h:\w\$ "</code> . The color will be lost from above prompt string.
+- If you do <code>source .bashrc</code> you get back the prompt after messing up the prompt string.
+- <code>less .bashrc</code> to see where it is defined.
+- <code>echo $PS3</code> doesn't display anything.
+- <code>select x in alpha beta gamma; do echo $x; done</code> displays PS3
+- In octave <code>x=[1:1:100]</code> creates array
+- In SageMath <code>plot(sin(x),x,0,2*pi)</code></p>
+<hr />
+<h4>Important Utilities</h4>
+<ul>
+<li><code>find</code> – locating files and processing them</li>
+<li><code>tar</code>, <code>gzip</code> etc – packaging collections of files</li>
+<li><code>make</code> – conditional actions</li>
+</ul>
+<h5>find</h5>
+<ul>
+<li><code>find [pathnames] [conditions]</code></li>
+</ul>
+<p>| Condition  | Description  |
+|---|---|
+|   <code>-name</code> |   pattern to match filenames  |
+|   <code>-type</code> |   File type code eg., c for character file, d for directory, l for symbolic   link etc.,|
+|   <code>-atime</code>    |   Files accessed +n (more than n), -n (less than n) days ago  |
+|   <code>-ctime</code>    |   File changed +n (more than n), -n (less than n) days ago    |
+|   <code>-regex</code>    |   Regular expression for pattern of filenames. Combine with -regextype posix-basic, posix-egrep etc., |
+|   <code>-exec</code> |   Command to run using { } as place holder for filename   |
+|   <code>-print</code>    |   Print the full path name of matching files  |</p>
+<ul>
+<li>Examples</li>
+<li>Find<ul>
+<li><code>find $HOME -print | wc -l</code> will print the number of files in the home directory</li>
+<li><code>find $HOME -mtime -2 -print</code> prints files modified in the last 2 days</li>
+<li><code>find . -mtime -2 -print</code> prints files modified in the last 2 says in the current working directory</li>
+<li><code>find /usr -type d -name 'man*' -print</code> directories begining with the word man in /usr directory</li>
+<li><code>find . -size +10M -print</code> finds files that are more than 10 MB</li>
+<li><code>find . -size +10M -print -exec ls -lsh {} \;</code> every file that is greater than 10 MB will be inserted in the curly braces. The output will be file name followed by long listing.</li>
+<li><code>find . -name '*.jpg' -exec -ls -sh {} \;</code> lists all the jpeg files and their size</li>
+</ul>
+</li>
+<li>Compression<ul>
+<li><code>cp -r /var/log logfiles</code> To illustrate compression capability get a copy of the log folders</li>
+<li><code>du -sh</code> shows the size it occupies</li>
+<li><code>ls -lR</code> displays recursively</li>
+<li><code>tar -cvf logfiles.tar logfiles/</code> bundles all the files in the directory as logfiles.tar</li>
+<li>Compress it using <code>gzip logfiles.tar</code> </li>
+<li><code>bzip2 logfiles.tar</code> shrinks it better but takes some more time</li>
+<li><code>bzip2 -d logfiles.tar.bz2</code> unzipping the files</li>
+<li><code>compress logfiles.tar</code> is very fast but compression is not much</li>
+<li>For a directory that has lot of subdirectories and lot of small files, it is a good idea to package it as a tar file</li>
+<li><code>rm -rf logfiles</code> to remove the original logfiles directory</li>
+<li><code>uncompress logfiles.tar.Z</code> unzips the tar</li>
+<li><code>tar -xvf logfiles.tar</code> gives back the directory</li>
+</ul>
+</li>
+<li>
+<p>Make</p>
+<ul>
+<li><code>make.file</code> is given below</li>
+</ul>
+<p><code>shell
+  BACKUPDIR=/home/username/backup
+  DATESTAMP:=$(shell date+"%Y-%m-%d %G.%M")
+  TARBALL=backup_$(DATESTAMP).tar
+  backup: file1 file2
+          @echo "Backing up file1 file2 to $(DATESTAMP)"
+          tar -cvf $(TARBALL) file1 file2
+          @ls -l $(TARBALL)
+          mv $(TARBALL) $(BACKUPDIR)</code>
+ - The <code>:</code> infront of <code>=</code> in the <code>DATESTAMP</code> line indicates one-time substitution.
+ - <code>make -f make.file backup</code>
+ - The action is performed only if one of the dependencies has changed. It will get executed again only if file1 or file 2 has changed.
+ - ANy maintenence activity can be taken up as a make file command.</p>
+</li>
+</ul>
+<h5>file packaging</h5>
+<ul>
+<li>Deep file hierarchies</li>
+<li>Large number of tiny files</li>
+<li><code>tar</code> : collect a file hierarchy into a single file</li>
+<li><code>gzip</code> : compress a file</li>
+<li>Applications: backup, file sharing, reduce disc
+utilization
+Explanations:</li>
+<li>Sometimes when there are several small files in a hierarchy structure, the files may occupy the minimum block size so there is a wastage of space. In such situations doing a <code>tar</code> will save space.</li>
+</ul>
+<h5>Possibilities</h5>
+<ul>
+<li><code>tar</code>, <code>zip</code></li>
+<li>compress (ncompress), gzip (ncompress), bzip2 (bzip2), xz (xz-utils), 7z (p7zip-full)</li>
+<li>Tarballs like bundle.tgz for package + compress</li>
+<li>Time &amp; memory required to shrink / expand versus size ratio</li>
+<li>Portability</li>
+<li>Unique names using timestamp, process ID etc., for backup tarballs
+Explanation :</li>
+<li>Plain text or ASCII files can be compressed to a very good ratio (almost 1:10) if the file contains repeting patterns.</li>
+<li>For more efficiency, first zip and then make a tar. Zipping the files while adding it to tar - .tgz file format combines tar and gzip together.</li>
+<li>The deciscion on which method to use is taken based on time required, space occupied etc..</li>
+</ul>
+<h5>make</h5>
+<ul>
+<li><code>make -f make.file</code>
+```</li>
+</ul>
+<h1>comments</h1>
+<p>TMP_FILES = <em>.o </em>.aux
+.PHONY : clean
+target : prerequisites
+recipe $(OPTION_NAME)
+clean:
+rm -f $(TMP_FILES)
+```</p>
+<hr />
+<h4>Network &amp; ssh</h4>
+<h6>Accessing remote machines on command line</h6>
+<ul>
+<li>IPv4 address range</li>
+<li>Localhost<ul>
+<li><code>127.0.0.0/8</code></li>
+</ul>
+</li>
+<li>Private network<ul>
+<li><code>Class A : 10.0.0.0/8</code> - 16,777,216</li>
+<li><code>Class B : 172.16.0.0/12</code> - 1,048,,576</li>
+<li><code>Class C : 192.168.0.0/16</code> - 65,536</li>
+</ul>
+</li>
+<li>Public network</li>
+<li>Explanations</li>
+<li>Interfaces between Private and Public network is a gateway</li>
+<li>Local host address is the way by which the system can refer to itself. </li>
+<li>The number after the slash indicates how many IP addresses are possible.</li>
+<li>Class A : The three parts following 10 can be any number between 0 and 255. 2^24-2=16,777,216. This is useful for a large organisation</li>
+<li>You can create orivate networks within private networks upto 3 levels</li>
+<li>Ways to gain remote access</li>
+<li>VPN access</li>
+<li>ssh tunneling <ul>
+<li>secure shell tunneling</li>
+</ul>
+</li>
+<li>Remote desktop : x2go, rdp, pcoip,<ul>
+<li>rdp is popular among Windows machine</li>
+<li>pcoip with VMWare</li>
+</ul>
+</li>
+<li>Desktop over browser: Apache Guacomole</li>
+<li>
+<p>Commercial, over internet : Teamviewer, AnyDesk,Zoho assist, ...</p>
+</li>
+<li>
+<p>Some important ports</p>
+</li>
+</ul>
+<p>| Port  | Service  | Description  |
+|---|---|---|
+|   <code>21</code>    |   <code>ftp</code>   |   File transfer   |
+|   <code>22</code>    |   <code>ssh</code>   |   Secure Shell    |
+|   <code>25</code>    |   <code>smtp</code>  |   Simple Mail Transfer Protocol   |
+|   <code>80</code>    |   <code>http</code>  |   Hypertext Tranfer Protocol  |
+|   <code>443</code>   |   <code>https</code> |   Secure Hypertext Tranfer Protocol   |
+|   <code>631</code>   |   <code>cups</code>  |   Common Unix Printing System |
+|   <code>3306</code> |   <code>mysql</code> |   MySQL database  |</p>
+<ul>
+<li>Firewall</li>
+<li>Ports open on my machine</li>
+<li>Ports needed to be accessed on remote machine</li>
+<li>Network routing over the port</li>
+<li>
+<p>Firewall controls at each hop</p>
+</li>
+<li>
+<p>Protecting a server</p>
+</li>
+<li>
+<p>Server with a public service &gt; Web Application Filter &gt; Network Firewall &gt; Anonymous users</p>
+</li>
+<li>
+<p>SELinux</p>
+</li>
+<li>Security Enhanced Linux mode available on Ubuntu too, apart from server grade flavors like CentOS, Fedora, RHEL, SuSE Linux etc.,</li>
+<li>Additional layer of access control on files to services<ul>
+<li>A layer beyond file permissions.</li>
+</ul>
+</li>
+<li>Role Based Access Control</li>
+<li>Process sandboxing, least privilege access for subjects<ul>
+<li>Every process will have restriction of reading the memory locations of other processes</li>
+</ul>
+</li>
+<li>Check using <code>ls -lZ</code> and <code>ps -eZ</code></li>
+<li>RBAC items: user <code>(unconfined_u)</code>, role <code>(object_r)</code>, type <code>(user_home_t)</code>, level <code>(s0)</code><ul>
+<li>Role Based Access Control</li>
+</ul>
+</li>
+<li>Modes: <code>disabled</code>, <code>enforcing</code>, <code>permissive</code></li>
+<li>Tools: <code>semanage</code>, <code>restorecon</code></li>
+<li>
+<p>SELinux is recommended for all publicly visible servers</p>
+</li>
+<li>
+<p>Network tools</p>
+</li>
+</ul>
+<p>| Tool  | Description  |
+|---|---|
+|   <code>ping</code>  |   To see if the remote machine is up  |
+|   <code>traceroute</code>    |   Diagnostics the hop timings to the remote machine   |
+|   <code>nslookup</code>  |   Ask for conversion of IP address to name    |
+|   <code>dig</code>   |   DNS lookup utility  |
+|   <code>netstat</code>   |   Print network connections   |
+|   <code>mxtoolbox.com</code> |   For help with accessibility from public network |
+|   <code>whois lookup</code>  |   Who owns which domain name  |
+|   <code>nmap</code>  |   (careful !) Network port scanner    |
+|   <code>wireshark</code> |   (careful !) Network protocol analyzer. Sniff packets through the network for diagnostics.   |</p>
+<ul>
+<li>High Performance Computing</li>
+<li>Look at www.top500.org for statistics<ul>
+<li>All 500 HPC machines are GNU Linux based.</li>
+</ul>
+</li>
+<li>Accessing a remote HPC machine is usually over SSH</li>
+<li>Long duration jobs are submitted to a job scheduler for execution</li>
+<li>Raw data if large needs to be processed remotely before being transferred to your machine (network charges? bandwidth?)</li>
+<li>Comfort with command line is a must</li>
+<li>Demo</li>
+<li><code>ifconfig</code> shows a Class A IP range network within the campus</li>
+<li><code>nslookup www.iitm.ac.in</code> shows it is connected to <code>waf6.iitm.ac.in</code> web application filter.</li>
+<li><code>dig -x 142.250.206.164</code></li>
+<li><code>aqua.iitm.ac.in</code> HPC cluster is not visible from the internet.</li>
+<li><code>qstats</code> is used to get job status</li>
+<li><code>netstat</code> to display active connections.</li>
+</ul>
+<hr />
+<h4>Automating scripts</h4>
+<h6>Scheduled, recurring, automatic execution of scripts</h6>
+<ul>
+<li><code>cron</code></li>
+<li>Service to run scripts automatically at scheduled times</li>
+<li>Tools: <code>at</code>, <code>crontab</code>, <code>anacron</code>, <code>logrotate</code></li>
+<li>Script locations:<ul>
+<li><code>/etc/crontab</code>  </li>
+<li><code>/etc/cron.d</code></li>
+<li><code>/etc/cron.hourly</code></li>
+<li><code>/etc/cron.daily</code></li>
+<li><code>/etc/cron.weekly</code></li>
+<li><code>/etc/cron.monthly</code></li>
+</ul>
+</li>
+</ul>
+<p><code>Example of job definition:
+.---------------- minute (0 - 59)
+|  .------------- hour (0 - 23)
+|  |  .---------- day of month (1 - 31)
+|  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+|  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+|  |  |  |  |
+*  *  *  *  * user-name command to be executed</code></p>
+<ul>
+<li>Job definition</li>
+<li><code>5 2 * * 1-5 root cd /home/scripts/backup &amp;&amp; ./mkbackup.sh</code><ul>
+<li><code>5</code> minute (0-59)</li>
+<li><code>2</code> hour (0-23)</li>
+<li><code>*</code> day of the month (1-31)</li>
+<li><code>*</code> month (1-12) or jan, feb, ...</li>
+<li><code>1-5</code> day of week (0-6) or sun,mon, ...</li>
+<li><code>root</code> user-name</li>
+<li><code>cd /home/scripts/backup</code> command</li>
+</ul>
+</li>
+<li>The above command runs mkbackup.sh as root every working day at 02:05 AM</li>
+<li>Demonstration</li>
+<li>The first time crontab is used you have to select the default editor</li>
+<li>crontab is in <code>etc</code> directory</li>
+<li><code>anacron</code> is run by the System administrator</li>
+<li><code>cron.daily</code> is a folder in <code>etc</code> that displays daily tasks. Similarly <code>cron.hourly</code>,<code>cron.monthly</code>,<code>cron.weekly</code></li>
+<li>By placing a script in any of these directories you can make it run at the specified schedule</li>
+<li>
+<p>By running <code>crontab -e</code> you can execute a specific script at a time. Customize timely running of scripts.</p>
+</li>
+<li>
+<p>Startup scripts</p>
+</li>
+<li>Startup scripts: <code>/etc/init/</code>, <code>/etc/init.d/</code></li>
+<li>Runlevel scripts:</li>
+</ul>
+<p>| Level  | Location  | Description  |
+|---|---|---|
+|   <code>0</code> |   <code>/etc/rc0.d/</code>   |   Shutdown and power off  |
+|   <code>1</code> |   <code>/etc/rc1.d/</code>   |   Single user mode    |
+|   <code>2</code> |   <code>/etc/rc2.d/</code>   |   Non GUI multi-user mode w/o networking  |
+|   <code>3</code> |   <code>/etc/rc3.d/</code>   |   Non GUI multi-user mode with networking |
+|   <code>4</code> |   <code>/etc/rc4.d/</code>   |   Non GUI multi-user mode for special purposes    |
+|   <code>5</code> |   <code>/etc/rc5.d/</code>   |   GUI multi-user mode with networking |
+|   <code>6</code> |   <code>/etc/rc6.d/</code>   |   Shutdown and reboot |</p>
+<hr />
+<h4>Managing Storage</h4>
+<h6>LVM &amp; RAID</h6>
+<ul>
+<li>LVM</li>
+<li>Logical Volume Management</li>
+<li>Pooling multiple storage devices as a single logical volume</li>
+<li><code>lvm2 tools</code> : create and manage virtual block devices from physical devices</li>
+<li>Suppose you need a very large partition but there is no HDD available of that size, you can define a logical volume that spans over multiple HDDs.</li>
+<li>Logical Volumes are mounted by the GNU Linux OS, which are mapped over multiple physical disks.</li>
+<li>RAID</li>
+<li>Redundant Arrays of Independent Disks</li>
+<li>Distributing data over multiple discs for redundancy / speed / increased capacity</li>
+<li>Raid Controller : software or hardware</li>
+<li>RAID modes</li>
+<li>usable capacity &lt; actual capacity</li>
+</ul>
+<p>| RAID Mode  | Min drives  | Description  | Comments  |
+|---|---|---|---|
+|   RAID 0  |   2   |   Striping    |   Speed up    |
+|   RAID 1  |   2   |   Mirroring   |   Read is n times faster, n-1 drive failures tolerated    |
+|   RAID 5  |   3   |   Block-level striping with distributed parity    |   1 drive failure tolerated, Read is n times faster, write is n-1 times faster    |
+|   RAID 6  |   4   |   Block-level striping with dual distributed parity   |   2 drive failures tolerated, read is n times faster, write is n-2 times faster   |</p>
+<ul>
+<li>Explanation</li>
+<li>RAID 0 - You are using 2 disks as 1. Half of one file is stored on 2 disks. Doubles speed of access of a file. Write Speed is 2x and Read Speed is 2x for 2 disks. If there are n disks in RAID 0 equivalent storage is size of minimum disk * n.</li>
+<li>RAID 1 - Any piece of the file is written to both the disks. Reading is 2x but writing is n-1. People tend to use RAID 1 for OS alone.</li>
+<li>RAID 5 - When you have more than 3 disks. Data is written to more than one disk. If one fails nothing is lost.</li>
+<li>RAID 6 - Parity over 2 disks. If 2 disks fail you still have all your data.</li>
+<li>Most of the hardware supprts hot-swap. </li>
+<li>Useable capacity is less than the actual capacity</li>
+<li>For storage people use RAID 5 or RAID 6.</li>
+<li>Demo</li>
+<li><code>df -h</code> to check system storage</li>
+<li>WHich RAID configuration to use to improve read performance and sustain at least one disk failure without losing data ? RAID 4, RAID 6.</li>
+</ul>
+<h4>Images</h4>
+<p><img alt="RAID0" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/RAID_0.svg/150px-RAID_0.svg.png" />
+<img alt="RAID1" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/RAID_1.svg/150px-RAID_1.svg.png?20181205135217" />
+<img alt="RAID5" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/RAID_5.svg/325px-RAID_5.svg.png" />
+<img alt="RAID6" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/RAID_6.svg/325px-RAID_6.svg.png" /></p>
+{% endblock %}

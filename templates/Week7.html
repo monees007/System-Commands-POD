@@ -1,0 +1,386 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>sed</h3>
+<ul>
+<li>
+<p>Introduction</p>
+<ul>
+<li>It is a programming language for processing text streams</li>
+<li>sed is an abbreviation for <strong>s</strong>tream <strong>ed</strong>itor</li>
+<li>It is a part of POSIX</li>
+<li>sed precedes awk</li>
+<li>use sed to pre-process input for further processing</li>
+<li>sed is a meant for text processing, fast in execution</li>
+<li>sed is available everywhere !</li>
+</ul>
+</li>
+<li>
+<p>Execution model</p>
+<ul>
+<li>Input stream is a set of lines</li>
+<li>Each line is a sequence of characters</li>
+<li>Two data buffers are maintained: active <strong>pattern</strong> space and auxiliary
+<strong>hold</strong> space</li>
+<li>For each line of input, an <strong>execution cycle</strong> is performed loading the line
+into the pattern space</li>
+<li>During each cycle, all the statements in the script are executed in the
+sequence for matching <strong>address pattern</strong> for <strong>actions</strong> specified with the
+<strong>options</strong> provided</li>
+</ul>
+</li>
+<li>
+<p>usage</p>
+<ul>
+<li>Single line at the command line</li>
+<li><code>sed -e 's/hello/world/g' input.txt</code></li>
+<li>Script interpreted by sed</li>
+<li><code>sed -f ./myscript.sed input.txt</code></li>
+<li><code>myscript.sed</code>
+```sed</li>
+</ul>
+<h1>!/usr/bin/sed -f</h1>
+<p>2,8s/hello/world/g
+```</p>
+</li>
+<li>
+<p>sed statements</p>
+<ul>
+<li><code>:label</code> <code>address pattern</code> <code>action</code> <code>options</code> ;<ul>
+<li><code>address pattern</code><ul>
+<li><code>address</code></li>
+<li><code>address, range</code></li>
+<li>negation <code>!</code></li>
+</ul>
+</li>
+<li><code>action</code><ul>
+<li>Single Character action. Same as "ed" or "ex"</li>
+</ul>
+</li>
+<li><code>options</code><ul>
+<li>Depends on the <code>action</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Grouping commands</p>
+<ul>
+<li><code>{ cmd; cmd; }</code></li>
+</ul>
+</li>
+<li>
+<p>address</p>
+<ul>
+<li>Selecting by Numbers<ul>
+<li><code>5</code></li>
+<li><code>$</code></li>
+<li><code>%</code></li>
+<li><code>1~3</code></li>
+</ul>
+</li>
+<li>Selecting by matching<ul>
+<li><code>/regexp/</code></li>
+</ul>
+</li>
+<li>Range Address<ul>
+<li><code>/regexp1/,/regexp2/</code></li>
+<li><code>/regexp/, +4</code></li>
+<li><code>/regexp/, ~2</code></li>
+<li><code>5,15</code></li>
+<li><code>5,/regexp/</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>actions</p>
+</li>
+</ul>
+<p>| command  | Description  |
+|---|---|
+|   <code>p</code> |   Print the pattern space |
+|   <code>d</code> |   Delete the pattern space    |
+|   <code>s</code> |   Substitute using regex match <code>s/pattern/replacement/g</code>  |
+|   <code>=</code> |   Print current input line number, \n |
+|   <code>#</code> |   comment |
+|   <code>i</code> |   Insert above current line   |
+|   <code>a</code> |   Append below current line   |
+|   <code>c</code> |   Change current line |</p>
+<ul>
+<li>programming</li>
+</ul>
+<p>|  command | Description  |
+|---|---|
+|   <code>b label</code>   |   Branch unconditionally to label |
+|   <code>:label</code>    |   Specify location of label for branch command    |
+|   <code>N</code> |   Add a new line to the pattern space and append next line of input into it.  |
+|   <code>q</code> |   Exit sed without processing any more commands or input lines    |
+|   <code>t label</code>   |   Branch to label only if there was a successful substitution was made    |
+|   <code>T label</code>   |   Branch to label only if there was no successful substitution was made   |
+|   <code>w filename</code>    |   Write pattern space to filename |
+|   <code>x</code> |   Exchange the contents of hold and pattern spaces    |</p>
+<ul>
+<li>
+<p>bash + sed</p>
+<ul>
+<li>Including sed inside shell script</li>
+<li>heredoc feature</li>
+<li>Use with other shell scripts on command line using pipe</li>
+</ul>
+</li>
+<li>
+<p>Working with <code>sed</code></p>
+</li>
+<li><code>sed -e "" edit.txt</code>
+    -The default action of sed is to just print out the contents of the file if nothing is specified.</li>
+<li><code>sed -n</code> - the default action of printing is not performed</li>
+<li><code>sed -e '=' sample.txt</code> the <code>=</code> prints the line number</li>
+<li><code>sed -n -e '5p' sample.txt</code> 
+    -<code>-n</code> says not to print anything else by default. <code>5p</code> says to print the 5th line. Without <code>-n</code> all the lines will be printed and the 5th line will be printed 2 times.The fifth line is the address space</li>
+<li><code>sed -n -e '5!p' sample.txt</code> The <code>!</code> means that all lines except the 5th line will be printed. <code>!</code> Exclamation mark negates an address.</li>
+<li><code>sed -n -e '$!p' sample.txt</code> prints all except the last line. Careful with using <code>'</code> instead of <code>"</code> here.</li>
+<li><code>sed -n -e '5,8p' sample.txt</code> prints the 5th to the 8th line both inclusive.</li>
+<li><code>sed -n -e '=; 5,8p' sample.txt</code> prints all line numbers and from 5 to 8 prints lines also.</li>
+<li><code>sed -n -e '5,8{=;p}' sample.txt</code> prints line numbers for the line 5 to 8 alone.</li>
+<li><code>sed -n -e '1~2p' sample.txt</code> prints lines 1,3,5,7 ... Number coming after <code>~</code> specifies step size.</li>
+<li><code>sed -n -e '1~2!p' sample.txt</code> prints the remaining lines due to the negation specified by <code>!</code></li>
+<li><code>sed -n -e '/microsoft/p' sample.txt</code> Supplying a phrase and an action. The phrase is microsoft and the action is to print every line containing the phrase.</li>
+<li><code>sed -n -e '/in place of/!p' sample.txt</code>  prints the lines that do not contain the phrase "in place of"</li>
+<li><code>sed -n -e '/adobe/,+2p' sample.txt</code> prints the line containing "adobe" and two more lines that come immediately after that.</li>
+<li><code>sed -n -e '5d' sample.txt</code> deletes the 5th line and prints the rest</li>
+<li><code>sed -e '5,8d' sample.txt</code> deletes from the 5th to the 8th line and prints the rest   </li>
+<li><code>sed -e '1,$d' sample.txt</code> deletes from the 1st to the last line and prints nothing</li>
+<li><code>sed -e '/microsoft/d' sample.txt</code> deletes all the lines containing microsoft and prints the rest </li>
+<li>Most popular usage of the <code>sed</code> command is to substitute one phrase with another. </li>
+<li><code>sed -e 's/microsoft/MICROSOFT/g' sample.txt</code> search and replace. <code>s</code> implies search and <code>g</code> implies global.</li>
+<li><code>sed -e '1s/linux/LINUX/g' sample.txt</code> replaces 'linux' with 'LINUX' on only the first line.</li>
+<li><code>sed -e '1,$s/in place of/in lieu of/g' sample.txt</code> replaces 'in place of' with 'in lieu of' from the first line to the last line.</li>
+<li>Modifying the incoming stream using the extended regular espression engine.</li>
+<li><code>sed -E -e '3,6s/^L[[:digit:]]+ //g' sample.txt</code> performs a search and replace from the 3rd to the 6th line of capital L followed by number/s and then a space. <code>-E</code> indicates that the Extended regular expression set should be used.</li>
+<li><code>sed -E -e '3,/symbolic/s/^L[[:digit:]]+ //g' sample.txt</code> performs a search and replace from the 3rd to the line where the phrase 'symbolic' occurs, of capital L followed by number/s and then a space. <code>-E</code> indicates that the Extended regular expression set should be used.</li>
+<li><code>sed -E -e '1~3s/^L[[:digit:]]+ //g' sample.txt</code> performs a search and replace from the 1st line every third line, of capital L followed by number/s and then a space. <code>-E</code> indicates that the Extended regular expression set should be used.</li>
+<li><code>sed -E -e '1~3!s/^L[[:digit:]]+ //g' sample.txt</code> Negation of the address range performs the opposite of the previous command.</li>
+<li>Address range as a regular expression</li>
+<li><code>sed -E -e '/text/,/video/s/^L[[:digit:]]+ //g' sample.txt</code> performs a search and replace from the line that contains 'text' to the line where the phrase 'video' occurs, of capital L followed by number/s and then a space. <code>-E</code> indicates that the Extended regular expression set should be used.</li>
+<li><code>sed -e '1i ----------------header----------' -e '$a -----------footer---------' sample.txt</code> Here <code>i</code> inserts before the first line and <code>a</code> appends after the last line.</li>
+<li><code>sed -e '/microsoft/i ----------------watchout----------' -e '/in place of/a -----------alternative---------' sample.txt</code> 'watchout' appears above every line that contains microsoft and alternative comes below every line that contains 'in place of'</li>
+<li><code>sed -e '1~5i ----------------break----------' sample.txt</code> inserts 'break' after every 5 lines.</li>
+<li><code>sed -e '/microsoft/c ------censored--------' sample.txt</code> For every line that has 'microsoft' <code>c</code> or change command is executed</li>
+<li>
+<p><code>sed -e '1~3c ------censored--------' sample.txt</code></p>
+</li>
+<li>
+<p>An sed script file</p>
+</li>
+<li><code>more hf.sed</code>
+```sed</li>
+</ul>
+<h1>!/usr/bin/sed -f</h1>
+<p>1i ------header--------
+$a ------footer--------
+1,5s/in place of/in lieu of/g
+6i ------ simpler stuff here onward --------
+6,$s/in place of.*//g
+<code>``
+  - First line mentions the interpreter
+  - last line removes all the characters whenever 'in place of' is encountered
+  -</code>sed -f hf.sed sample.txt<code>The</code>-f` implies that sed will use a file.</p>
+<ul>
+<li><code>more clean.sed</code>
+<code>sed
+/[[:alpha:]]{2}[[:digit:]]{2}[[:alpha:]][[:digit:]]+/!d
+s/[ ]+/ /g
+s/ ([[:digit:]]+).*/ \1/g</code></li>
+<li>For the input file block-ex-6.input - File containing roll number and fees paid</li>
+<li>First line deletes all lines that dont contain roll number</li>
+<li>2nd line replaces multiple spaces with single space</li>
+<li>
+<p>3rd line keeps number by back referencing</p>
+</li>
+<li>
+<p><code>sed -E -f clean.sed block-ex-6.input</code></p>
+</li>
+<li>
+<p>Joining lines</p>
+</li>
+<li>Example : joining lines which are ending with a <code>\</code></li>
+<li><code>cat join.sed</code>
+```sed</li>
+</ul>
+<h1>!/usr/bin/sed -f</h1>
+<p>:x /\$/N
+/\/s/\\n//g
+/\$/bx
+<code>``
+  - The</code>:<code>indicates a label. Whenever there is a</code>` the <code>N</code> causes it to read the next line in the buffer.
+  - 2nd line - On the lines which have <code>\</code>, if there is a new line character it will be replaced with null.
+  - 3rd line on those lines which contain <code>\</code> we branch to the first line. </p>
+<ul>
+<li><code>sed --debug -f join.sed sample-split.txt</code></li>
+<li>The debug option helps to debug infinite loops in sed</li>
+</ul>
+<hr />
+<p>L7.2</p>
+<h3>Version Control</h3>
+<ul>
+<li>
+<p>Every Save is effectively a new version of the code</p>
+<ul>
+<li>"Make" - Compile only those parts of code that has changed. You do not touch what has not been modified. </li>
+<li>If a group of programmers are working on a project with lots of codes and lots of files, following a modlar approach (Each function as a separate file in C for example). There is a tacit understanding that programmers are not going to work on the same file.</li>
+<li>Each programmer has multiple verions of the each file they worked on.</li>
+<li>Why is version control necessary ? To trace back to a woring version of code.</li>
+<li>Versions will depend on number of users, number of files and number of versions. This needs to be kept in a database.</li>
+<li>Two major version control systems<ul>
+<li>SVN - Centrally hosted and managed version system<ul>
+<li>Allows for one master who keeps track of the version of code that is being officially supported. </li>
+<li>Storage Systems - Not if it fails but when it fails - When it fails no one can access. RAID - Redundant Array of Inexpensive/Independent Disks. </li>
+</ul>
+</li>
+<li>GIT - Distributed version control system<ul>
+<li>Even if something happens to the master server disappears nothing significant is lost because every collaborator has a copy of everything. </li>
+<li>GIT system doesn't really require a server</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>git</p>
+<ul>
+<li>remote - server with which we synchronize</li>
+<li>protocol for connection - git protocol - protocol by which we exchange information with remote and do version control.</li>
+<li>options of using git <ul>
+<li>locally run git server</li>
+<li>campus git server</li>
+<li>gitlab </li>
+<li>github.com</li>
+</ul>
+</li>
+<li>Two factor authentication for github<ul>
+<li>app -&gt; otp -&gt; enter</li>
+<li>app -&gt; ask -&gt; swipe</li>
+<li>SMS -&gt; OTP -&gt; enter</li>
+<li>customised for each repository/activity</li>
+<li>personal access token</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Activities<ul>
+<li>register on github.com</li>
+<li>enable 2 factor authentication (Microsoft Authenticator App)</li>
+<li>Create a repo</li>
+<li>practice how to pull,push,git actions.</li>
+<li>Developer Settings &gt;&gt; Personal Access Token</li>
+<li>Create repository</li>
+<li><code>git clone url-of-github-rep.git</code><ul>
+<li>append <code>.git</code> to url</li>
+<li>folder will be created automatically</li>
+</ul>
+</li>
+<li>edit README.md using <code>vi README.md</code></li>
+<li><code>git init</code> in the directory so that git understands that it is the same directory<ul>
+<li>creates a <code>.git</code> folder with all the paraphernelia that git requires</li>
+<li><code>ctrl</code>+<code>z</code> puts the program that was running as a background job. <code>kill %</code> kills the background job</li>
+</ul>
+</li>
+<li><code>git remote add master url-of-github-rep</code> <ul>
+<li>it understands that there is a remote location that you hae configured</li>
+</ul>
+</li>
+<li><code>git config --global user.name "your_username_on_github"</code></li>
+<li><code>git config --global user.email "your_github_registered_email"</code></li>
+<li><code>git status</code> will chec what is happening</li>
+<li><code>git add README.md</code></li>
+<li><code>git commit -m "Message which is describes what you have done"</code></li>
+<li>Use the personal access token created earlier</li>
+<li><code>vi ../pat</code> to store the token one level above the folder.</li>
+<li><code>git push</code> enter username and personal access token</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>L7.3</p>
+<h3>Github Brief Introduction</h3>
+<ul>
+<li>
+<p>Create account on Github</p>
+<ul>
+<li>Configure 2 factor authentication and download recovery keys</li>
+<li>Install Microsoft Authenticator App on your mobile</li>
+<li>Login to github.com using TFA as a habit</li>
+</ul>
+</li>
+<li>
+<p>Creating your own repository</p>
+<ul>
+<li>Create private repository</li>
+<li>Get a personal access token to use this</li>
+<li>Clone the repository on your computer <code>git clone url_of_the_repo</code></li>
+<li>Configure the folder for git using <code>git init</code></li>
+<li>Tell git about yourself : <code>git config</code><ul>
+<li><code>git config --global user.name "your_username_on_github"</code></li>
+<li><code>git config --global user.email "your_github_registered_email"</code></li>
+</ul>
+</li>
+<li>Configure the remote <code>git remote add master url_of_the_repo</code></li>
+<li>Change some files if you wish</li>
+<li>Run the <code>git status</code> command to understand what is going on.</li>
+<li>Stage them to be ready to send to remote using <code>git add modified_filename</code></li>
+<li><code>git add .</code> will push everything to the server</li>
+<li>Commit the change using <code>git commit -m "message"</code></li>
+<li>Type <code>git status</code> again</li>
+<li>Push the changes using <code>git push</code></li>
+</ul>
+</li>
+<li>
+<p>Working with branches</p>
+<ul>
+<li>Create a new branch for a repository you are already working on
+    -<code>git branch</code>
+    -<code>git branch "Panda"</code></li>
+<li>Check out the branch<ul>
+<li><code>git checkout</code></li>
+<li><code>git checkout Panda</code></li>
+<li><code>git status</code> shows that you are on the Panda branch</li>
+</ul>
+</li>
+<li>Make some changes to some files</li>
+<li>All changes are now to the branch<ul>
+<li><code>git add README.md</code></li>
+<li><code>git commit -m "This is from my PC"</code></li>
+<li><code>git push --set-upstream origin Panda</code></li>
+</ul>
+</li>
+<li>Merge the branch with the master/main<ul>
+<li><code>git checkout main</code></li>
+<li><code>git merge Panda</code></li>
+</ul>
+</li>
+<li>On the website 'Compare and Pull Request'. Then 'Create Pull Request'. Then 'Merge Pull Request'</li>
+<li>Remote checks if there is any confilct. Creating and merging branches is part of the coding cycle.</li>
+</ul>
+</li>
+<li>
+<p>Contributing to others' repositories</p>
+<ul>
+<li>Fork their repository</li>
+<li>create your branch</li>
+<li>make some changes to your branch and push those to the server</li>
+<li>on the remote server, compare and create a pull request</li>
+</ul>
+</li>
+<li>
+<p>Allowing contributors to chip in</p>
+<ul>
+<li>Look at pull requests and approve them</li>
+<li>Resolve and conflicts in some files</li>
+</ul>
+</li>
+</ul>
+{% endblock %}

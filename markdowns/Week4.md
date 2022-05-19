@@ -248,7 +248,7 @@ ___
 |  \| alternation 	|
 
 * ### Examples using grep
-	- [Example File names.txt (Containing Names/Roll-No)](Example_Files/names.txt)
+	- [Example File names.txt (Containing Names/Roll-No)](../Example_Files/names.txt)
 	- Basic use
 		- `grep 'Raman' names.txt` matches line with Raman Singh
 		- `cat names.txt | grep 'ai'` matches line with Snail
@@ -299,7 +299,7 @@ ___
 		- `dpkg-query -W -f'${Section} ${binary:Package}\n' | egrep ' .{4}$'`
 	- Get package names that are from the math section
 		- `dpkg-query -W -f'${Section} ${binary:Package}\n' | egrep '^math'`
-	- [Example File chartype.txt (Containing few lines with control character)](Example_Files/chartype.txt)	
+	- [Example File chartype.txt (Containing few lines with control character)](../Example_Files/chartype.txt)	
 		- control character inserted using `echo $'\cc' >> chartype.txt`
 	- get lines that have an alphanumeric character at the begining of the line
 		- `cat chartype.txt | grep '^[[:alnum:]]'`

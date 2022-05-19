@@ -1,0 +1,713 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p>6.1</p>
+<h3>Shell programming</h3>
+<h5>More features in bash scripts</h5>
+<ul>
+<li>Debugging</li>
+<li>Print the command before executing it<ul>
+<li><code>set -x ./myscript.sh</code></li>
+<li><code>bash -x ./myscript.sh</code></li>
+</ul>
+</li>
+<li>
+<p>Place the <code>set -x</code> inside the script</p>
+</li>
+<li>
+<p>Combining conditions</p>
+</li>
+<li><code>[ $a -gt 3 ] &amp;&amp; [ $a -gt 7 ]</code></li>
+<li><code>[ $a -lt 3 ] || [ $a -gt 7 ]</code></li>
+<li>
+<p>Example <a href="../Example_Files/condition-examples.sh">condition-examples.sh</a></p>
+</li>
+<li>
+<p>Shell arithmetic</p>
+<ul>
+<li>Using <code>let</code><ul>
+<li><code>let a=$1+5</code></li>
+<li><code>let "a= $1 + 5"</code></li>
+</ul>
+</li>
+<li>Using <code>expr</code><ul>
+<li><code>expr $a +20</code></li>
+<li><code>expr "$a + 20"</code></li>
+<li><code>b=$( expr $a + 20 )</code></li>
+</ul>
+</li>
+<li>Using <code>$[ expression ]</code><ul>
+<li><code>b=$[ $a + 10 ]</code></li>
+</ul>
+</li>
+<li>Using <code>$(( expression ))</code><ul>
+<li><code>b=$(( $a + 10 ))</code></li>
+<li><code>(( b++ ))</code>- Without $. Not intending to return. Useful for incrementing</li>
+</ul>
+</li>
+<li>Example <a href="../Example_Files/arithmetic-example-1.sh">arithmetic-example-1.sh</a></li>
+</ul>
+</li>
+<li>
+<h3>expr command operators</h3>
+</li>
+</ul>
+<p>| Expression  | Description  |
+|---|---|
+|   <code>a + b</code> |   Return arithmetic sum of a and b    |
+|   <code>a - b</code> |   Return arithmetic difference of a and b |
+|   <code>a * b</code> |   Return arithmetic product of a and b    |
+|   <code>a / b</code> |   Return arithmetic quotient of a divided by b    |
+|   <code>a % b</code> |   Return arithmetic remainder of a divided by b   |
+|   <code>a &gt; b</code> |   Return 1 if a greater than b; else return 0 |
+|   <code>a &gt;= b</code>    |   Return 1 if a greater than or equal to b; else return 0 |
+|   <code>a &lt; b</code> |   Return 1 if a less than b; else return 0    |
+|   <code>a &lt;= b</code>    |   Return 1 if a less than or equal to b; else return 0    |
+|   <code>a = b</code> |   Return 1 if a equals b; else return 0   |
+|   <code>a \| b</code>    |   Return a if neither argument is null or 0; else return b    |
+|   <code>a &amp; b</code> |   Return a if neither argument is null or 0; else return 0    |
+|   <code>a != b</code>    |   Return 1 if a is not equal to b; else return 0  |
+|   <code>str : reg</code> |   Return the position upto anchored pattern match with BRE str    |
+|   <code>match str reg</code> |   Return the pattern match if reg matches pattern in str  |
+|   <code>substr str n m</code>    |   Return the substring m chars in length starting at position n   |
+|   <code>index str chars</code>   |   Return position in str where any one of chars is found else return 0    |
+|   <code>length str</code>    |   Return numeric length of string str |
+|   <code>+ token</code>   |   Interpret token as string even if its a keyword |
+|   <code>(exprn)</code>   |   Return the value of expression exprn    |</p>
+<ul>
+<li>
+<p>Example <a href="../Example_Files/expr-examples.sh">expr-examples.sh</a></p>
+</li>
+<li>
+<p>Bench Calculator </p>
+<ul>
+<li>An arbitaty preciscion calculator language</li>
+<li><code>bc -l</code><ul>
+<li>the <code>l</code> option loads the math library.</li>
+</ul>
+</li>
+<li><code>12^6</code> or <code>12.6/3.6</code></li>
+<li>Can be used for floating point operations.</li>
+</ul>
+</li>
+<li>
+<p>heredoc feature </p>
+<ul>
+<li>helps while passing long strings without having to worry about <code>\n</code> etc.</li>
+<li>Example <a href="../Example_Files/heredoc-example-1.sh">heredoc-example-1.sh</a></li>
+<li>Example <a href="../Example_Files/heredoc-example-2.sh">heredoc-example-2.sh</a></li>
+<li>A hyphen tells bash to ignore leading tabs</li>
+</ul>
+</li>
+<li>
+<p>PATH variable</p>
+<ul>
+<li>Example <a href="../Example_Files/path-example.sh">path-example.sh</a><ul>
+<li>IFS (Internal Field Seperator)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>L6.3</p>
+<ul>
+<li>if-elif-else-fi loop
+<code>bash
+if condition1
+then
+    commandset1
+else
+    commandset2
+fi</code>
+<code>bash
+if condition1
+then
+    commandset1
+elif condition2
+then
+    commandset2
+elif condition3
+then
+    commandset3
+else
+    commandset4
+fi</code></li>
+<li>case statement options<ul>
+<li>commandset4 is the default for values of $var not matching what are listed</li>
+</ul>
+</li>
+</ul>
+<p><code>bash
+case $var in
+    op1)
+        commandset1;;
+    op2 | op3)
+        commandset2;;
+    op4 | op5 | op6)
+        commandset3;;
+    *)
+        commandset4;;
+esac</code>
+* c style for loop : one variable
+    - extention of POSIX and maynot be available in all the shells
+    - Adding <code>time</code> before a script command gives the amount of time taken to execute.</p>
+<p><code>bash
+begin=1
+finish=10
+for (( a = $begin; a &lt; $finish; a++ ))
+do
+    echo $a
+done</code></p>
+<ul>
+<li>c style for loop : two variables<ul>
+<li>Note: Only one condition to close the for loop</li>
+</ul>
+</li>
+</ul>
+<p><code>bash
+begin1=1
+begin2=10
+finish=10
+for (( a=$begin1, b=$begin2; a &lt; $finish; a++, b-- ))
+do
+    echo $a $b
+done</code></p>
+<ul>
+<li>
+<p>processing output of a loop</p>
+<ul>
+<li>Output of the loop is redirected to the tmp file
+<code>bash
+filename=tmp.$$
+begin=1
+finish=10
+for (( a = $begin; a &lt; $finish; a++ ))
+do
+echo $a
+done &gt; $filename</code></li>
+</ul>
+</li>
+<li>
+<p>break</p>
+<ul>
+<li>Break out of inner loop
+<code>bash
+n=10
+i=0
+while [ $i -lt $n ]
+do
+echo $i
+(( i++ ))
+if [ $i -eq 5 ]
+then
+    break
+fi
+done</code></li>
+<li>Break out of outer loop
+<code>bash
+n=10
+i=0
+while [ $i -lt $n ]
+do
+echo $i
+j=0
+while [ $j -le $i ]
+do
+    printf "$j "
+    (( j++ ))
+    if [ $j -eq 7 ]
+    then
+        break 2
+    fi
+done
+(( i++ ))
+done</code></li>
+</ul>
+</li>
+<li>
+<p>continue</p>
+<ul>
+<li>Continue will skip rest of the commands in the loop and goes to next iteration</li>
+</ul>
+</li>
+</ul>
+<p><code>bash
+n=9
+i=0
+while [ $i -lt $n ]
+do
+    printf "\n loop $i:"
+    j=0
+    (( i++ ))
+    while [ $j -le $i ]
+    do
+        (( j++ ))
+        if [ $j -gt 3 ] &amp;&amp; [ $j -lt 6 ]
+        then
+            continue
+        fi
+        printf "$j "
+    done
+done</code></p>
+<ul>
+<li>shift<ul>
+<li>shift will shift the command line arguments by one to the left.</li>
+<li>shift is destructive - after the arguments are shifted t the left they are gone. This is only helpful if you don't need the arguments later.</li>
+<li>n checks if it is a non-zero argument</li>
+<li>except $0, which is the name of the script, the rest of the arguments get popped </li>
+</ul>
+</li>
+</ul>
+<p><code>bash
+i=1
+while [ -n "$1" ]
+do
+    echo argument $i is $1
+    shift
+    (( i++ ))
+done</code></p>
+<ul>
+<li>
+<p>exec</p>
+<ul>
+<li><code>exec ./my-executable --my-options --my-args</code></li>
+<li>To replace shell with a new program or to change i/o settings</li>
+<li>If new program is launched successfully, it will not return control to the shell</li>
+<li>If new program fails to launch, the shell continues</li>
+</ul>
+</li>
+<li>
+<p>eval</p>
+<ul>
+<li><code>eval my-arg</code></li>
+<li>Execute argument as a shell command</li>
+<li>Combines arguments into a single string</li>
+<li>Returns control to the shell with exit status</li>
+<li>Example <a href="../Example_Files/eval-example.sh">eval-example.sh</a></li>
+</ul>
+</li>
+<li>function <ul>
+<li>Example <a href="../Example_Files/function-example.sh">function-example.sh</a></li>
+</ul>
+</li>
+<li>getopts<ul>
+<li>This script can be invoked with only three options: <code>a</code>, <code>b</code>, <code>c</code>. The options <code>b</code> and <code>c</code> will take arguments.</li>
+<li>Example <a href="../Example_Files/getopts-example.sh">getopts-example.sh</a></li>
+</ul>
+</li>
+</ul>
+<p><code>bash
+while getopts "ab:c:" options;
+do
+    case "${options}" in
+        b)
+            barg=${OPTARG}
+            echo accepted: -b $barg
+            ;;
+        c)
+            carg=${OPTARG}
+            echo accepted: -c $carg
+            ;;
+        a)
+            echo accepted: -a
+            ;;
+        *)
+            echo Usage: -a -b barg -c carg
+            ;;
+    esac
+done</code></p>
+<ul>
+<li>
+<p>select loop</p>
+<ul>
+<li>Text Menu</li>
+<li>Example <a href="../Example_Files/select-example.sh">select-example.sh</a>
+<code>bash
+echo select a middle one
+select i in {1..10}
+do
+case $i in
+    1 | 2 | 3)
+        echo you picked a small one;;
+    8 | 9 | 10)
+        echo you picked a big one;;
+    4 | 5 | 6 | 7)
+        echo you picked the right one
+        break;;
+esac
+done
+echo selection completed with $i</code></li>
+</ul>
+</li>
+<li>
+<p>Additional notes</p>
+<ul>
+<li>Warning : Never <code>eval</code> a user supplied string on any command line</li>
+<li>eval is sending the strings to the shell and printing them out.</li>
+<li>Can source a file with functions to use it in a shell script</li>
+<li><code>source mylib.sh</code></li>
+<li>Do not give set uid permission to the scripts unless you know what you are doing</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>L6.4</p>
+<h3>awk</h3>
+<h5>A language for processing fields and records</h5>
+<ul>
+<li>
+<p>Introduction</p>
+<ul>
+<li>awk is a programming language, quick to code and fast in execution</li>
+<li>awk is an abbreviation of the names of three people who developed it: <strong>A</strong>ho, <strong>W</strong>einberger &amp; <strong>K</strong>ernighan</li>
+<li>It is a part of POSIX, IEEE 1003.1-2008</li>
+<li>Variants: nawk, gawk, mawk ...</li>
+<li>gawk contains features that extend POSIX (normally seen on GNU Linux systems with a symbolic link from awk to gawk)</li>
+<li>Though awk is viewed as a scripting language it has enough mathematical functions to use for routine calculations. IT can do things that spreadsheets cannot do.</li>
+</ul>
+</li>
+<li>
+<p>Execution model</p>
+<ul>
+<li>Input stream is a set of records </li>
+<li>Eg., using "\n" as record separator, lines are records</li>
+<li>Each record is a sequence of fields</li>
+<li>Eg., using " " as field separator, words are fields. Evan a regular expression can be used as an FS.</li>
+<li>Splitting of records to fields is done automatically</li>
+<li>Each code block executes on one record at a time, as matched by the pattern of that block</li>
+</ul>
+</li>
+<li>
+<p>Usage</p>
+<ul>
+<li>Single line at the command line<ul>
+<li><code>cat /etc/passwd | awk -F”:” ‘{print $1}’</code></li>
+</ul>
+</li>
+<li>Script interpreted by awk<ul>
+<li><code>./myscript.awk /etc/passwd</code></li>
+<li><code>myscript.awk</code>
+```awk</li>
+</ul>
+<h1>!/usr/bin/gawk -f</h1>
+<p>BEGIN {
+    FS=":"
+    }
+{
+    print $1
+}
+```</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Examples</p>
+<ul>
+<li><a href="../Example_Files/block-ex-1.awk">block-ex-1.awk</a><ul>
+<li><code>./block-ex-1.awk block-ex-1.input</code></li>
+<li><code>cat block-ex-1.input | ./block-ex-1.awk</code></li>
+<li>For each line Default block will be processed once. </li>
+<li>You can have as many begin and end blocks wherever required in the awk script. BEGIN will be processed before the default block and and END will be processed after the default block.</li>
+<li>We don't need <code>;</code> at the end of every statement unless you need to write multiple statements on a single line.</li>
+<li><code>$0</code> represents the line(record) which is currently being processed. </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Built-in variables</p>
+</li>
+</ul>
+<p>| Variable  | Description  |
+|---|---|
+|   <code>ARGC</code>  |   Number of arguments supplied on the command line (except those that came with -f &amp; -v options)  |
+|   <code>ARGV</code>  |   Array of command line arguments supplied; indexed from 0 to ARGC-1  |
+|   <code>ENVIRON</code>   |   Associative array of environment variables  |
+|   <code>FILENAME</code>  |   Current filename being processed    |
+|   <code>FNR</code>   |   Number of the current record, relative to the current file  |
+|   <code>FS</code>    |   Field separator, can use regex  |
+|   <code>NF</code>    |   Number of fields in the current record  |
+|   <code>NR</code>    |   Number of the current record    |
+|   <code>OFMT</code>  |   Output format for numbers   |
+|   <code>OFS</code>   |   Output fields separator |
+|   <code>ORS</code>   |   Output record separator |
+|   <code>RS</code>    |   Record separator    |
+|   <code>RLENGTH</code>   |   Length of string matched by match() function    |
+|   <code>RSTART</code>    |   First position in the string matched by match() function    |
+|   <code>SUBSEP</code>    |   Separator character for array subscripts    |
+|   <code>$0</code>    |   Entire input record |
+|   <code>$n</code>    |   nth field in the current record |</p>
+<ul>
+<li>
+<h4>awk scripts</h4>
+<ul>
+<li>
+<h5><code>pattern {procedure}</code></h5>
+</li>
+<li>pattern (optional. If not given the code block is called default block and it is applied to every line in the input stream.)<ul>
+<li><strong>BEGIN</strong></li>
+<li><strong>END</strong></li>
+<li>general expression</li>
+<li><strong>regex</strong></li>
+<li>Relational Expression</li>
+<li>Pattern-matching expression</li>
+</ul>
+</li>
+<li>procedure (will be applied to all recors that match the pattern)<ul>
+<li>Variable assignment</li>
+<li>Array assignment</li>
+<li>Input / output commands</li>
+<li>Build-in functions</li>
+<li>User-defined functions</li>
+<li>Control loops</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h4>Execution</h4>
+<ul>
+<li><code>BEGIN { commands; }</code><ul>
+<li>Executed once, before files are read</li>
+<li>Can appear anywhere in the script</li>
+<li>Can appear multiple times</li>
+<li>Can contain program code</li>
+</ul>
+</li>
+<li><code>END { commands; }</code><ul>
+<li>Executed once, after files are read</li>
+<li>Can appear anywhere in the script</li>
+<li>Can appear multiple times</li>
+<li>Can contain program code</li>
+</ul>
+</li>
+<li><code>pattern { commands; }</code><ul>
+<li>Patterns can be combined with <code>&amp;&amp;</code> <code>||</code> <code>!</code></li>
+<li>Range of records can be specified using comma</li>
+<li>Executed each record pattern evalutes to true</li>
+<li>Script can have multiple such blocks</li>
+</ul>
+</li>
+<li><code>{ commands; }</code><ul>
+<li>Executed for all records</li>
+<li>Can have multiple such blocks</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h4>operators</h4>
+<ul>
+<li>Assignment<ul>
+<li><code>=</code> <code>+=</code> <code>-=</code> <code>*=</code> <code>/=</code> <code>%=</code> <code>^=</code> <code>**=</code></li>
+</ul>
+</li>
+<li>Logical<ul>
+<li><code>||</code> <code>&amp;&amp;</code></li>
+</ul>
+</li>
+<li>Algebraic<ul>
+<li><code>+</code> <code>-</code> <code>*</code> <code>/</code> <code>%</code> <code>^</code> <code>**</code></li>
+</ul>
+</li>
+<li>Relational<ul>
+<li><code>&gt;</code> <code>&lt;=</code> <code>&gt;</code> <code>&gt;=</code> <code>!=</code> <code>==</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>| Operation  | Description  |
+|---|---|
+|   <code>expr ? a : b</code>  |   Conditional expression  |
+|   <code>a in array</code>    |   Array membership    |
+|   <code>a ~ /regex/</code>   |   Regular expression match    |
+|   <code>a !~ /regex/</code>  |   Negation of regular expression match    |
+|   <code>++</code>    |   Increment, both prefix and postfix  |
+|   <code>--</code>    |   decrement, both prefix and postfix  |
+|   <code>$</code> |   Field reference |
+|   <code></code> |   Blank is for concatenation  |</p>
+<ul>
+<li>
+<p>Adding 0 to a string makes it get interpreted as a number.</p>
+</li>
+<li>
+<h4>Functions and commands</h4>
+</li>
+</ul>
+<p>| Operation  | Commands  |
+|---|---|
+|   Arithmetic  |   <code>atan2</code> <code>cos</code> <code>exp</code> <code>int</code> <code>log</code> <code>rand</code> <code>sin</code> <code>sqrt</code> <code>srand</code> |
+|   String  |   <code>asort</code> <code>asorti</code> <code>gsub</code> <code>index</code> <code>length</code> <code>match</code> <code>split</code> <code>sprintf</code> <code>strtonum</code> <code>sub</code> <code>substr</code> <code>tolower</code> <code>toupper</code>    |
+|   Control Flow    |   <code>break</code> <code>continue</code> <code>do</code> <code>while</code> <code>exit</code> <code>for</code> <code>if</code> <code>else</code> <code>return</code>   |
+|   Input / Output  |   <code>close</code> <code>fflush</code> <code>getline</code> <code>next</code> <code>nextline</code> <code>print</code> <code>printf</code>   |
+|   Programming |   <code>extension</code> <code>delete</code> <code>function</code> <code>system</code>    |
+|   bit-wise    |   <code>and</code> <code>compl</code> <code>lshift</code> <code>or</code> <code>rshift</code> <code>xor</code>  |</p>
+<ul>
+<li>Example <ul>
+<li><a href="../Example_Files/block-ex-2.awk">block-ex-2.awk</a></li>
+<li><a href="../Example_Files/block-ex-3.awk">block-ex-3.awk</a><ul>
+<li>Blocks get executed based on whether the line has <code>alpha</code>,<code>alnum</code> or <code>digits</code></li>
+</ul>
+</li>
+<li><a href="../Example_Files/block-ex-4.awk">block-ex-4.awk</a><ul>
+<li>Matching only the first field in the record with a pattern</li>
+</ul>
+</li>
+<li><a href="../Example_Files/block-ex-5.awk">block-ex-5.awk</a><ul>
+<li>Field Separator as regular expression</li>
+<li>Number of fields as condition </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>L6.4</p>
+<ul>
+<li>
+<h4>arrays</h4>
+<ul>
+<li>Associative arrays</li>
+<li>Sparse storage</li>
+<li>Index need not be integer</li>
+<li><code>arr[index]=value</code></li>
+<li><code>for (var in arr)</code></li>
+<li><code>delete arr[index]</code></li>
+</ul>
+</li>
+<li>
+<h4>Loops</h4>
+<pre><code>```awk
+for (a in array)
+{
+    print a
+}
+```
+```awk
+if (a &gt; b)
+{
+    print a
+}
+```
+```awk
+for (i=1;i&lt;n;i++)
+{
+    print i
+}
+```
+```awk
+while (a &lt; n)
+{
+    print a
+}
+```
+```awk
+do
+{
+    print a
+} while (a&lt;n)
+```
+</code></pre>
+</li>
+<li>Example <ul>
+<li><a href="../Example_Files/block-ex-6.awk">block-ex-6.awk</a></li>
+</ul>
+</li>
+<li>
+<h4>Functions</h4>
+<ul>
+<li><code>cat infile |awk -f mylib -f myscript.awk</code></li>
+<li><code>mylib</code>
+<code>function myfunc1()
+{
+    printf “%s\n”, $1
+}
+function myfunc2(a)
+{
+    return a*rand()
+}</code></li>
+<li><code>myscript.awk</code>
+<code>BEGIN
+{
+    a=1
+}
+{
+    myfunc1()
+    b = myfunc2(a)
+    print b
+}</code></li>
+</ul>
+</li>
+<li>
+<p>Example </p>
+<ul>
+<li><a href="../Example_Files/func-example.awk">func-example.awk</a></li>
+<li><a href="../Example_Files/func-lib.awk">func-lib.awk</a></li>
+</ul>
+</li>
+<li>
+<h4>Pretty printing</h4>
+<ul>
+<li><code>printf "format", a, b, c</code><ul>
+<li>format - <code>%[modifier]control-letter</code><ul>
+<li>modifier<ul>
+<li><code>width</code></li>
+<li><code>prec</code></li>
+<li><code>-</code></li>
+</ul>
+</li>
+<li>control-letter<ul>
+<li><code>c</code> ascii char</li>
+<li><code>d</code> integer</li>
+<li><code>i</code> integer</li>
+<li><code>e</code> scientific notation</li>
+<li><code>f</code> floating notation</li>
+<li><code>g</code> shorter of scientific &amp; float</li>
+<li><code>o</code> octal value</li>
+<li><code>s</code> string text</li>
+<li><code>x</code> hexadecimal value</li>
+<li><code>X</code> hexadecimal value in caps</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h4>bash + awk</h4>
+<ul>
+<li>Including awk inside shell script</li>
+<li>heredoc feature</li>
+<li>Use with other shell scripts on command line using pipe</li>
+</ul>
+</li>
+<li>Examples <ul>
+<li>Spreadsheet handling efficiency demo</li>
+<li><a href="../Example_Files/rsheet-create.awk">rsheet-create.awk</a></li>
+<li><code>echo " " | ./rsheet-create.awk</code></li>
+<li>Time the process for 2 million records <code>time ./rsheet-create.awk emptyfile &gt; rsheet-data.txt</code></li>
+<li><a href="../Example_Files/rsheet-process.awk">rsheet-process.awk</a></li>
+<li><code>time ./rsheet-process.awk rsheet-data.txt &gt; rsheet-pdata.txt</code></li>
+<li>Analysing the server logs of <a href="https://semantic.iitm.ac.in/">https://semantic.iitm.ac.in/</a></li>
+<li><a href="Example-Files/access-full.log">access-full.log</a> (80MB)</li>
+<li>Making smaller files</li>
+<li><code>head access-full.log &gt; access-head.log</code> and <code>tail access-full.log &gt; access-tail.log</code></li>
+<li>To print ip addreses alone <code>awk BEGIN{FS=" "}{print $1} access-head.log</code></li>
+<li>To print only the date and ip <code>awk BEGIN{FS=" "}{d=substr($4,2,11);print d, $1} access-head.log</code></li>
+<li>The date from 5 days ago - <code>date --date="5 days ago" +%d/%m/%Y</code></li>
+<li>Use the above date string to extract details from the Apache log book</li>
+<li><a href="../Example_Files/apache-log-example-1.awk">apache-log-example-1.awk</a></li>
+<li><code>./apache-log-example-1.awk access-head.log</code></li>
+<li>Investigate a suspicious ip address using <code>dig</code></li>
+<li><code>dig -x 136.123.209.54</code></li>
+<li><code>dig +noall +answer -x 34.234.167.93</code> for a one line output</li>
+<li><a href="../Example_Files/apache-log-example-2.awk">apache-log-example-2.awk</a></li>
+<li><code>time ./apache-log-example-2.awk access-full.log &gt; nstats.txt</code></li>
+</ul>
+</li>
+</ul>
+{% endblock %}

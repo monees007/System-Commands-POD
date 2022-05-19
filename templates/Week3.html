@@ -1,0 +1,467 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Week 3 Notes</h2>
+<h3>Combining Commands and Files</h3>
+<ul>
+<li>Executing Multiple Commands</li>
+<li><code>command1; command2; command3;</code><ul>
+<li>Each command will be executed one after the other.</li>
+</ul>
+</li>
+<li><code>command1 &amp;&amp; command2</code><ul>
+<li>command2 will be executed only if command 1 succeeds</li>
+<li>If the return code is 0 it is true and if it is greater than 0 it is false</li>
+<li><code>ls &amp;&amp; date -Q &amp;&amp; wc -l /etc/profile</code> will display the dir listing followed by error that -Q is invalid; wc is not executed.</li>
+</ul>
+</li>
+<li><code>command1 || command2</code><ul>
+<li>command2 will not be executed if command1 succeeds</li>
+<li><code>ls /blah || date</code> will display current date after "No such file or directory"</li>
+<li><code>ls || date</code> will display just the directory listing</li>
+<li>command2 is like a Plan B if command1 doesn't succeed.</li>
+</ul>
+</li>
+<li>Example <code>ls /blah ; date ; wc -l /etc/profile ;</code></li>
+<li>If we use parenthesis ie <code>(ls /blah ; date ; wc -l /etc/profile ;)</code> the command gets executed in a subshell and is returned back to the shell we are using.</li>
+<li>We can use <code>echo $BASH_SUBSHELL</code> to return an integer which tells us at what level of execution we are.<ul>
+<li><code>(echo $BASH_SUBSHELL)</code> will report a value of 1 </li>
+<li><code>(ls; (date; echo $BASH_SUBSHELL))</code> will report a value of 2</li>
+</ul>
+</li>
+<li>Launching too many subshells could be expensive computationally.</li>
+<li>File Descriptors</li>
+<li>Every command in linux has 3 file descriptors - <code>stdin</code> (0) , <code>stdout</code> (1), <code>stderr</code> (2).<ul>
+<li><code>stdin</code> is a pointer to a stream that is coming from the keyboard or use input</li>
+<li><code>stdout</code> or <code>stderr</code> usually points to the screen where the display or output is made.</li>
+<li>the three pointers are looking at only the stream of characters.</li>
+<li>they can be directed to a file or a command, or the default behaviour can be left as it is.</li>
+</ul>
+</li>
+<li>Combining a command and a file<ul>
+<li><code>command &gt; file1</code> </li>
+<li><code>stdout</code> is redirected to <code>file1</code></li>
+<li><code>file1</code> will be created if it does not exist</li>
+<li>if <code>file1</code> exists, its contents will be overwritten</li>
+<li>example : <code>ls -1 /usr/bin &gt; file1</code> - displays no output on the screen because there is no error</li>
+<li><code>ls -1 /blah &gt; file1</code> - displays an error. file1 is overwritten and is now 0 Bytes.</li>
+<li><code>hwinfo &gt; hwinfo.txt</code></li>
+<li>trying this command in a folder where there is no w permissions will generate an error</li>
+<li>The <code>cat</code> command tries to read from the provided file name if not given it tries to read from stdin (keyboard)<ul>
+<li><code>cat &gt; file1</code> will allow you to type content. The feature could be used to create text files on the command line. You can come out using the <code>Ctrl</code>+<code>D</code> option.</li>
+<li><code>cat file1</code> displays the content of <code>file1</code></li>
+<li><code>cat</code> takes input from the keyboard and displays it on the screen (line by line; when you press enter) - Finish by pressing <code>Ctrl</code>+<code>D</code> to signify end of file.</li>
+</ul>
+</li>
+<li><code>command &gt;&gt; file1</code> </li>
+<li>contents will be appended to file1</li>
+<li>new file1 will be created if it does not exist.</li>
+<li>Example : <code>date &gt;&gt; file2 ; wc -l /etc/profile &gt;&gt; file2 ; file /usr/bin/znew &gt;&gt; file2 ;</code></li>
+<li><code>cat &gt;&gt; file1</code> to append text to a file from command line. Come out using <code>Ctrl</code> + <code>D</code></li>
+</ul>
+</li>
+</ul>
+<h3>Redirections</h3>
+<ul>
+<li>combining command and file (continued ..)</li>
+<li>(contd..)<ul>
+<li><code>command 2&gt; file1</code></li>
+<li>redirects <code>stderr</code> to <code>file1</code></li>
+<li><code>file1</code>, if it exists, will be overwritten.</li>
+<li><code>file1</code> will be created if it does not exist.</li>
+<li>Example <code>ls $HOME /blah 2&gt; error.txt</code></li>
+<li><code>command &gt; file1 2&gt; file2</code></li>
+<li><code>stdout</code> is redirected to <code>file1</code></li>
+<li><code>stderr</code> is redirected to <code>file2</code></li>
+<li>Contents of file1 and file2 will be overwritten.</li>
+<li>The output is in one file and the errors are in another file.</li>
+<li>Example : <code>ls $HOME /blah &gt; output.txt 2&gt; error.txt</code></li>
+<li><code>ls -R /etc &gt; output.txt 2&gt; error.txt</code> - permission related errors in error.txt</li>
+<li><code>command &lt; file1</code></li>
+<li><code>stdin</code> is redirected - a command expecting input from the keyboard could take the input from a file.</li>
+<li>Example : <code>wc /etc/profile</code> behaves similar to <code>wc &lt; /etc/profile</code></li>
+<li><code>command &gt; file1 2&gt;&amp;1</code></li>
+<li>command output will be redirected to <code>file1</code></li>
+<li><code>2&gt;</code> indicates <code>stderr</code> and that is being redirected to <code>&amp;1</code> (first stream) which is <code>stdout</code></li>
+<li>contents of <code>file1</code> will be overwritten</li>
+<li>Example : <code>ls $ HOME /blah &gt; file1</code> output alone is sent to file1. Error on screen</li>
+<li>Example : <code>ls $ HOME /blah &gt; file1 2&gt;&amp;1</code> output and error is sent to file1.</li>
+<li><code>command1 | command2</code> Pipe</li>
+<li><code>stdout</code> output of command 1 is sent to <code>stdin</code> of command2 as input</li>
+<li>Example <code>ls /usr/bin | wc -l</code></li>
+<li><code>command1 | command2 &gt; file1</code></li>
+<li>command1 and command2 are combined and the <code>stdout</code> of command2 is sent to <code>file1</code>. Errors are still shown on the screen.</li>
+<li>Example <code>ls /usr/bin | wc -l &gt; file1</code> - file1 has the number of lines counted by wc </li>
+<li><code>command &gt; file1 2&gt; /dev/null</code></li>
+<li><code>/dev/null</code> file - A sink for output to be discarded. Like a "black hole"</li>
+<li>We normally don't do anything with the <code>/dev</code> folder as there are sensitive system files there.</li>
+<li>If you are confident that the script is running well and you do not want to display any error on the screen, you can redirect the <code>stderr</code> to <code>/dev/null</code> </li>
+<li><code>stderr</code> is redirected to <code>/dev/null</code></li>
+<li>Example : <code>ls $HOME /blah &gt; file1 2&gt; /dev/null</code></li>
+<li>Example : <code>ls -R /etc &gt; file1 2&gt; /dev/null</code> - file1 contains the output except errors</li>
+<li><code>command1 | tee file1</code></li>
+<li>Used in sitiations where you want to have a copy of the output in a file as well as on the screen.</li>
+<li>The <code>tee</code> command reads from <code>stdin</code> and writes to <code>stdout</code> and file/s.</li>
+<li>Example : <code>ls $HOME | tee file1</code> also <code>ls $HOME | tee file1 file2</code> for creating multiple copies</li>
+<li><code>diff file1 file2</code> comapares files line by line<ul>
+<li>no output if the files are identical </li>
+</ul>
+</li>
+<li>Example : <code>ls $HOME /blah | tee file1 file2 | wc -l</code> - Here  <code>tee</code> keeps copy of output in a file and also sends output to <code>wc -l</code> for further processing.</li>
+<li>Example : <code>ls $HOME /blah 2&gt; /dev/null | tee file1 file2 | wc -l</code> to supress errors. Note location of <code>2&gt;</code> is since the error is generated there.</li>
+</ul>
+</li>
+</ul>
+<h3>Shell Variables - Part 1</h3>
+<ul>
+<li>Creation, inspection, modification, lists</li>
+<li>Creating a variable</li>
+<li><code>myvar="value string"</code><ul>
+<li><code>myvar</code> can't start with a number, but you can mix alphanumeric and <code>_</code></li>
+<li>No space around the <code>=</code></li>
+<li><code>"value string"</code> is the number,string or <code>command</code>. Output of a command can be assigned to myvar by enclosing the command in back-ticks.</li>
+</ul>
+</li>
+<li>Exporting a variable</li>
+<li><code>export myvar="value string"</code> or</li>
+<li><code>myvar="value string" ; export myvar</code></li>
+<li>This makes the value of the variable available to a shell that is spawned by the current shell.</li>
+<li>Using variable values</li>
+<li><code>echo $myvar</code></li>
+<li><code>echo ${myvar}</code><ul>
+<li>can manipulate the value of the variable by inserting some commands within the braces.</li>
+</ul>
+</li>
+<li><code>echo "${myvar}_something"</code> </li>
+<li>Removing a variable</li>
+<li><code>unset myvar</code></li>
+<li>Removing value of a variable <code>myvar=</code></li>
+<li>Test is a variable is set</li>
+<li><code>[[ -v myvar ]] ; echo $?</code><ul>
+<li>0 : success (variable myvar is set)</li>
+<li>1 : failure (variable myvar is not set)</li>
+</ul>
+</li>
+<li><code>[[ -z ${myvar+x} ]] ; echo $?</code>  (the <code>x</code> can be any string)<ul>
+<li>0 : success (variable myvar is not set)  </li>
+<li>1 : failure (variable myvar is set)</li>
+</ul>
+</li>
+<li>Substitute default value</li>
+<li>If the variable <code>myvar</code> is not set, use "default" as its default value</li>
+<li><code>echo ${myvar:-"default"}</code><ul>
+<li>if <code>myvar</code> is set display its value</li>
+<li>else display "default"</li>
+</ul>
+</li>
+<li>Set default value</li>
+<li>If the variable <code>myvar</code> is not set then set "default" as its value </li>
+<li><code>echo ${myvar:="default"}</code><ul>
+<li>if <code>myvar</code> is set display its value</li>
+<li>else set "default" as its value and display its new value</li>
+</ul>
+</li>
+<li>Reset value if variable is set</li>
+<li>If the variable <code>myvar</code> is set, then set "default" as its value</li>
+<li><code>echo ${myvar:+"default"}</code><ul>
+<li>if <code>myvar</code> is set, then set "default" as its value and display the new value</li>
+<li>else display null </li>
+</ul>
+</li>
+<li>List of variable names</li>
+<li><code>echo ${!H*}</code><ul>
+<li>displays the list of names of shell variables that start with H</li>
+</ul>
+</li>
+<li>Length of string value</li>
+<li><code>echo ${#myvar}</code><ul>
+<li>Display length of the string value of the variable <code>myvar</code></li>
+<li>if <code>myvar</code> is not set then display 0</li>
+</ul>
+</li>
+<li>Slice of a string value</li>
+<li><code>echo ${myvar:5:4}</code> (5 is the offset and 4 is the slice length)<ul>
+<li>Display 4 characters of the string value of the variable <code>myvar</code> after skipping first 5 characters.</li>
+</ul>
+</li>
+<li>if the slice length is larget than the length of the string then only what is available in the string will be displayed.</li>
+<li>the offset can also be negative. However you need to provide a <em>space</em> after the <em>:</em> to avoid confusion with the earlier usage of the <code>:-</code> symbol. The offset would come from the right hand side of the string.</li>
+<li>Remove matching pattern</li>
+<li><code>echo ${myvar#pattern}</code> - matches once</li>
+<li><code>echo ${myvar##pattern}</code> - matches maximum possible</li>
+<li>Whatever is matching the pattern will be removed and the rest of it will be displayed on the screen.</li>
+<li>Keep matching pattern</li>
+<li><code>echo ${myvar%pattern}</code> - matches once</li>
+<li><code>echo ${myvar%%pattern}</code> - matches maximum possible</li>
+<li>Replace matching pattern</li>
+<li><code>echo ${myvar/pattern/string}</code> - match once and replace with string</li>
+<li><code>echo ${myvar//pattern/string}</code> - match max possible and replace with string</li>
+<li>Replace matching pattern by location</li>
+<li><code>echo ${myvar/#pattern/string}</code> - match at begining and replace with string</li>
+<li><code>echo ${myvar/%pattern/string}</code> - match at the end and replace with string</li>
+<li>Changing case</li>
+<li><code>echo ${myvar,}</code> - Change the first character to lower case.</li>
+<li><code>echo ${myvar,,}</code> - Change all characters to lower case.</li>
+<li><code>echo ${myvar^}</code> - Change first character to uppercase</li>
+<li><code>echo ${myvar^^}</code> - Change all characters to upper case</li>
+<li>The original value of the variable is not changed. Only the display will be modified as the trigger commands are within braces.</li>
+<li>Restricting value types</li>
+<li><code>declare -i myvar</code> - only integers assigned </li>
+<li><code>declare -l myvar</code> - Only lower case chars assigned</li>
+<li><code>declare -u myvar</code> - Only upper case chars assigned</li>
+<li><code>declare -r myvar</code> - Variable is read only</li>
+<li>Once a variable is set as read only you may have to restart the bash to be able to set it </li>
+<li>Removing restrictions</li>
+<li><code>declare +i myvar</code> - integer restriction removed </li>
+<li><code>declare +l myvar</code> - lower case chars restriction removed</li>
+<li><code>declare +u myvar</code> - upper case chars restriction removed</li>
+<li><code>declare +r myvar</code> - <em>Can't do once it is read-only</em></li>
+<li>Indexed arrays</li>
+<li><code>declare -a arr</code><ul>
+<li>Declare <code>arr</code> as an indexed array</li>
+</ul>
+</li>
+<li><code>$arr[0]=”value”</code><ul>
+<li>Set value of element with index 0 in the array</li>
+</ul>
+</li>
+<li><code>echo ${arr[0]}</code><ul>
+<li>Value of element with index 0 in the array</li>
+</ul>
+</li>
+<li><code>echo ${#arr[@]}</code><ul>
+<li>Number of elements in the array. The <code>@</code> symbol is a wild character to run through all the elements in the array</li>
+</ul>
+</li>
+<li><code>echo ${!arr[@]}</code><ul>
+<li>Display all indices used</li>
+</ul>
+</li>
+<li><code>echo ${arr[@]}</code><ul>
+<li>Display values of all elements of the array</li>
+</ul>
+</li>
+<li><code>unset ‘arr[2]’</code><ul>
+<li>Delete element with index 2 in the array</li>
+</ul>
+</li>
+<li><code>arr+=(“value”)</code><ul>
+<li>Append an element with a value to the end of the array</li>
+</ul>
+</li>
+<li>Associative arrays</li>
+<li><code>declare -A hash</code><ul>
+<li>declare <code>hash</code> as an associative array</li>
+</ul>
+</li>
+<li><code>$hash[“a”]=”value”</code><ul>
+<li>set the value of element with index a in the array</li>
+</ul>
+</li>
+<li><code>echo ${hash[“a”]}</code><ul>
+<li>value of element with index a in the array</li>
+</ul>
+</li>
+<li><code>echo ${#hash[@]}</code><ul>
+<li>number of elements in the array</li>
+</ul>
+</li>
+<li><code>echo ${!hash[@]}</code><ul>
+<li>display all indices used</li>
+</ul>
+</li>
+<li><code>echo ${hash[@]}</code><ul>
+<li>display values of all elements of the array</li>
+</ul>
+</li>
+<li><code>unset ‘hash[“a”]’</code><ul>
+<li>delete an element with index a in the array</li>
+</ul>
+</li>
+<li>Can do everything in the indexed array except append because there is nothing called the end of the array as there is no sequence for the elements of a hash</li>
+<li>Examples</li>
+<li><code>true</code> always returns exit code 0</li>
+<li><code>false</code> always returns exit code 1 (Check with <code>echo $?</code>)</li>
+<li>To check whether a variable is present<ul>
+<li><code>[[ -v myvar ]] ; echo $?</code> returns 1 if the variable is not present in the memory</li>
+<li><code>[[ -z ${myvar+x} ]] ; echo $?</code> returns 0 if variable is not present and 1 if it is present. <code>x</code> is a string that will be used as a replacement if the variable was not present.</li>
+</ul>
+</li>
+<li>Use of Braces<ul>
+<li><code>myvar=FileName</code></li>
+<li><code>echo $myvar</code></li>
+<li><code>echo "$myvar.txt"</code> prints FileName.txt</li>
+<li><code>echo "$myvar_txt"</code> does not print anything as the variable <code>myvar_txt</code> does not exist</li>
+<li><code>echo "${myvar}_txt"</code> prints Filename_txt </li>
+<li>Braces are useful in stating clearly the name of the variable.</li>
+<li>Can also be used outside quotes <code>echo ${myvar}</code></li>
+</ul>
+</li>
+<li>Does the variable we have created get passed on to the shell or any other program created within the shell<ul>
+<li><code>myvar=3.14 ; echo $myvar</code></li>
+<li><code>bash</code> one more level of bash</li>
+<li><code>ps --forest</code> to show that we are one level below</li>
+<li><code>echo $myvar</code> not present</li>
+<li>Use <code>export myvar=3.14</code> to ensure this variable is available to all spawned sub shells.</li>
+<li>Change value of variable within the child shell</li>
+<li>modification of value is not reflected in the value of the variable in the parent shell</li>
+<li>even if you do export of the variable within the child shell it will not change the value within the parent shell.</li>
+</ul>
+</li>
+<li>Use of back-ticks<ul>
+<li><code>mydate=`date`</code> value of mydate will be output of date.</li>
+<li><code>mydate=`echo Sunday that is today` ; echo $mydate</code></li>
+</ul>
+</li>
+<li>Manipulations for variables within the shell environment<ul>
+<li>We would like to have echo display a default value if variable is not available</li>
+<li><code>echo ${myvar:-hello}</code> the <code>-</code> indicates if the value is not present what is the display value</li>
+<li><code>echo ${myvar:-"myvar is not set"}</code></li>
+<li>Set the value if it was not set already</li>
+<li><code>echo ${myvar:=hello}</code> if absent / not set then set it to the value after <code>=</code></li>
+<li>If it is present it will not change</li>
+<li><code>echo ${myvar:?"myvar is not set"}</code> displays a little more information and a debug message. <code>bash: myvar: myvar is not set</code></li>
+<li>Unset the value of a variable using <code>unset myvar</code></li>
+<li><code>echo ${myvar:+HELLO}</code> displays the message if the variable is present</li>
+</ul>
+</li>
+<li>Inspecting all the variables in the shell environment<ul>
+<li><code>printenv</code></li>
+<li><code>env</code></li>
+<li><code>echo ${!H*}</code> displays the names of variables begining with 'H' - <code>!</code> indicates names of the variables instead of value.</li>
+</ul>
+</li>
+<li>Counting characters<ul>
+<li><code>mydate=`date`</code> stores the output of the <code>date</code> command in <code>mydate</code></li>
+<li><code>echo ${#mydate}</code> prints the length of the value present in mydate.</li>
+<li>length of a non-existing variable is zero</li>
+</ul>
+</li>
+<li>Features of using colon : within braces {}<ul>
+<li>Extracting part of a string from the value of a particular variable.</li>
+<li><code>echo ${mydate:6:10}</code></li>
+<li><code>echo ${myvar:3:3}</code> will print <code>def</code> for <code>myvar=abcdefg</code> ie: 3 characters after the offset (position 3)</li>
+<li>Using negative offset</li>
+<li><code>echo ${myvar: -3:3}</code> and <code>echo ${myvar: -3:4}</code> will print <code>efg</code> for <code>myvar=abcdefg</code><ul>
+<li>note <code>-</code> is to be preceeded with a blank to avoid confusion</li>
+<li>asking for more characters, will print just what is available</li>
+</ul>
+</li>
+<li><code>echo ${myvar: -3:2}</code> will print <code>ef</code> for <code>myvar=abcdefg</code></li>
+<li>Extracting a portion of the date</li>
+<li>Output of <code>date</code> is <code>Tuesday 25 January 2022 09:10:20 PM IST</code></li>
+<li>Output of <code>date +"%d %B %Y"</code> is <code>25 January 2022</code></li>
+<li>if <code>mydate=`date`</code> then <code>echo ${mydate:8:16}</code> will also print <code>25 January 2022</code></li>
+<li>Extracting patterns from a string</li>
+<li><code>myvar=filename.txt.jpg</code></li>
+<li><code>echo ${myvar#*.}</code> minimal matching displays <code>txt.jpg</code></li>
+<li><code>myvar=filename.somethingelse.jpeg</code></li>
+<li><code>echo ${myvar##*.}</code> maximal matching displays <code>jpeg</code></li>
+<li><code>echo ${myvar%*.}</code> displays filename.somethingelse<ul>
+<li>the <code>%</code> is used to indicate what has not been matched. (minimal)</li>
+</ul>
+</li>
+<li><code>echo ${myvar%%*.}</code> displays filename<ul>
+<li>the <code>%</code> is used to indicate what has not been matched. (maximal)</li>
+</ul>
+</li>
+<li>Can be combined <code>echo ${myvar%%.*}.${myvar##*.}</code> to get <code>filename.jpeg</code></li>
+<li>Replacing what has been matched</li>
+<li>Pattern matching in Linux usually goes with a pair of forward slashes.</li>
+<li>Convert all <code>e</code> to <code>E</code> in a string<ul>
+<li><code>echo ${myvar/e/E}</code> replaces only the first occurance of <code>e</code></li>
+<li><code>echo ${myvar//e/E}</code> replaces all occurances of <code>e</code></li>
+</ul>
+</li>
+<li>Replace characters at the begining of a string<ul>
+<li><code>echo ${myvar/#f/F}</code> replaces the occurance of <code>f</code> in the begining of the string with <code>F</code>. The <code>#</code> indicates the begining of the string</li>
+</ul>
+</li>
+<li>Replace characters at the end of a string<ul>
+<li><code>echo ${myvar/%g/G}</code> replaces the occurance of <code>g</code> at the end of the string with <code>G</code>. The <code>%</code> indicates the end of the string.</li>
+</ul>
+</li>
+<li>Replace jpeg with jpg, only if it is at the end of a string<ul>
+<li><code>echo ${myvar/%jpeg/jpg}</code></li>
+</ul>
+</li>
+<li>Modifying and storing it in a variable<ul>
+<li><code>myvar1=`echo ${myvar//jpeg/jpg}`</code></li>
+</ul>
+</li>
+<li>Generic command to remove day from date<ul>
+<li><code>echo ${mydate#*day}</code></li>
+</ul>
+</li>
+<li>Upper case to lower case and vice-versa<ul>
+<li><code>echo ${mydate,}</code> changes first character to lowercase</li>
+<li><code>echo ${mydate,,}</code> converts all characters to lowercase</li>
+<li><code>echo ${mydate^}</code> changes first character to uppercase</li>
+<li><code>echo ${mydate^^}</code> changes all characters to uppercase</li>
+</ul>
+</li>
+<li>Restricting values that can be assigned to shell variables using <code>declare</code><ul>
+<li><code>declare</code> is a shell builtin</li>
+<li><code>+</code> to <strong>unset</strong> a restriction and <code>-</code> to <strong>set</strong> it  (Note : counterintutuve )</li>
+<li><code>-a</code> for indexed arrays (need not be ordered indexes)</li>
+<li><code>-A</code> for associative arrays (dictionaries)</li>
+<li><code>-i</code> for integers</li>
+<li><code>-u</code> for uppercase conversion on assignment</li>
+<li>Integer restriction<ul>
+<li><code>declare -i mynum</code></li>
+<li><code>mynum=10</code> will assign 10 to mynum</li>
+<li><code>mynum=hello</code> will assign 0 to mynum</li>
+</ul>
+</li>
+<li>lowercase restriciton<ul>
+<li><code>declare -l myvar</code></li>
+<li><code>myvar=hello</code> assigns hello to myvar</li>
+<li><code>myvar=BELLOW</code> converts BELLOW to lowercase and assigns it to myvar.</li>
+</ul>
+</li>
+<li>removing a restriction<ul>
+<li><code>declare +l myvar</code></li>
+<li>the value is still contained after removing the restriction but you can now store upper case characters as well</li>
+</ul>
+</li>
+<li>declaring a read-only variable<ul>
+<li><code>declare -r myvar</code></li>
+<li>once a variable has been set as read only, you cannot change its value and you cannot remove the read-only restriction using <code>+r</code></li>
+<li><code>declare +r myvar</code> gives the error <code>bash: declare: myvar: readonly variable</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Arrays<ul>
+<li><code>declare -a arr</code></li>
+<li><code>arr[0]=Sunday</code></li>
+<li><code>arr[1]=Monday</code></li>
+<li><code>echo ${arr[0]}</code></li>
+<li><code>echo ${arr[1]}</code> </li>
+<li><code>echo ${#arr[@]}</code> gives number of elements in the array</li>
+<li><code>echo ${arr[@]}</code> displays all values</li>
+<li><code>echo ${!arr[@]}</code> displays the indices`</li>
+<li>You can have any index without filling up intermediate indices. Indices are not necessarily contiguous.</li>
+<li><code>arr[100]=Friday</code> is also valid</li>
+<li>Removing an element from an array = <code>unset 'arr[100]'</code></li>
+<li>Appending to an array <code>arr+=(Tuesday)</code></li>
+<li>Populating an array in one go <code>arr=(Sunday Monday Tuesday)</code> . The indices are sequential</li>
+</ul>
+</li>
+<li>Associative Arrays / Hashes<ul>
+<li><code>declare -A hash</code></li>
+<li><code>hash[0]="Amal"</code></li>
+<li><code>hash["mm12b001"]="Charlie"</code></li>
+<li><code>echo ${!hash[@]}</code> to get indices</li>
+<li><code>echo ${hash["mm12b001"]}</code></li>
+</ul>
+</li>
+<li>File names in a shell variable <ul>
+<li><code>myfiles=(`ls`)</code></li>
+<li><code>echo ${myfiles[@]}</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+{% endblock %}

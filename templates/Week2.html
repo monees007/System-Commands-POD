@@ -1,0 +1,267 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Week 2 Notes</h2>
+<ul>
+<li>Multiple uses of / is as good as one</li>
+<li>ie : <code>cd usr//////bin</code> will take you to <code>usr/bin</code></li>
+<li>The root folder / is its own parent</li>
+<li>ie : if you do <code>cd ..</code> within the root directory you stay in the same directory.</li>
+<li>Options / Flags can be written in multiple combinations</li>
+<li><code>ls -l level1 -di</code></li>
+<li><code>ls -d level1 -il</code></li>
+<li><code>ls level1 -ldi</code></li>
+<li><code>ls -ldi level1</code></li>
+<li>long formats for options are also available</li>
+<li><code>ls -a</code> is equivalent to <code>ls --all</code></li>
+</ul>
+<h3>Commands</h3>
+<ul>
+<li><code>ls</code></li>
+<li>R flag lists all subdirectories recursively </li>
+<li>Passing directory name to ls shows what is within that directory. ie : ls -l level1 </li>
+<li>d flag displays details of a folder without traversing inside it. it : ls -ld level1 </li>
+<li></li>
+<li><code>ll</code></li>
+<li>a shortcut for the ls -la command</li>
+<li><code>which</code></li>
+<li>which <em>command</em> will show the location of the command</li>
+<li><code>which less</code> will show usr/bin/less</li>
+<li><code>whatis</code></li>
+<li>gives a brief description of the command</li>
+<li><code>alias</code> </li>
+<li>give a nickname to a frequently used command</li>
+<li>usage : <code>alias ll = 'ls -l'</code></li>
+<li>Just typing alias will show a list of aliases</li>
+<li><code>alias date = 'date -R'</code></li>
+<li>If the command is executed by typing the whole path eg : <code>/usr/bin/date</code> the alias is not invoked. (<code>cd /usr/bin</code> and <code>./date</code>)</li>
+<li>An alias can be escaped by prefixing a \ ie: <code>\date</code></li>
+<li><code>unalias</code> </li>
+<li>used to remove an alias</li>
+<li><code>rmdir</code></li>
+<li>removes an empty directory</li>
+<li><code>ps</code></li>
+<li>displays current processes</li>
+<li><code>ps --forest</code> - which process has launched which child process.</li>
+<li><code>ps -f</code> - displays parent process id</li>
+<li><code>ps -ef</code> - all the processes running in the operating system now</li>
+<li>PID is the process ID , PPID is the parent process ID.</li>
+<li>PID 1 is <code>/sbin/init</code></li>
+<li><code>bc</code> - bench calculator </li>
+<li>exit using <code>Ctrl</code>+<code>D</code></li>
+</ul>
+<h3>Commands to know contents of a text file</h3>
+<ul>
+<li><code>less</code></li>
+<li>displays the content in one screen</li>
+<li>ls -l /usr/bin/less shows that the command takes 180KB</li>
+<li><code>wc</code></li>
+<li>prints newline,word and byte counts for the file</li>
+<li>the -l flag shows just the number of lines</li>
+<li><code>head</code></li>
+<li>head profile displays the first ten lines</li>
+<li>use -n flag to specify the number of lines</li>
+<li><code>tail</code></li>
+<li>tail profile displays the last ten lines</li>
+<li>use -n flag to specify number of lines to be displayed</li>
+<li><code>cat</code></li>
+<li>in /etc , cat profile would just dump contents on the screen without any further prompts.</li>
+<li>disadvantages : cant move back and forth to view page by page, can't come out half way through.</li>
+<li>if the file is very long cat is not the best way to look at the content.</li>
+<li><code>more</code></li>
+<li>similar to less. Allows page by page viewing</li>
+<li>ls -l /usr/bin/more shows that the command takes 43KB</li>
+</ul>
+<h3>Knowing more commands</h3>
+<ul>
+<li><code>man</code></li>
+<li><code>which</code></li>
+<li><code>apropos</code></li>
+<li>For a keyword it shows you all the commands which have that keyword in the description</li>
+<li>Used to discover new commands</li>
+<li>If you type <code>ls -l /usr/bin/apropos</code> you see that it is a symbolic link to whatis, but the outputs are different : Why?</li>
+<li>Reason : In Linux every executable will know in what name it has been invoked - can have different behaviour depending on the name that invoked it.</li>
+<li>It also has the same output as <code>man -k</code> : Searching for a keyword</li>
+<li><code>info</code></li>
+<li>Allows browsing through commands using the cursor </li>
+<li>Can go back using <em>&lt;</em> or 'shift'+','</li>
+<li><code>whatis</code></li>
+<li><code>help</code></li>
+<li>displays keywords reserved for the shell being run</li>
+<li><code>type</code></li>
+<li>displays what type of command it is </li>
+<li>type type shows that it is a 'shell built in' being offered from the shell and not the os</li>
+<li>type ls shows that it is aliased with some option. which ls shows that it is coming from os because there is an executable available.
+ ### Multiple Arguments</li>
+<li>
+<h5>Recap : Arguments and Options</h5>
+</li>
+<li>Options are enhanced features of the command</li>
+<li>Arguments are specific names of files or directories </li>
+<li>Second arrument behaviour and interpratation of last argument should be seen in the man pages</li>
+<li>Recursion is assumed for <code>mv</code> and not <code>cp</code></li>
+<li>recursion is assumed for some commands and should be explicitly stated in others</li>
+<li>For copy command recurssion is not assumed</li>
+<li><code>cp dir1 dir2</code> need not work. dir1 has 2 files in it.</li>
+<li><code>cp -r dir1 dir2</code> works - recurssion is specified explicitly.</li>
+<li><code>mv dir1 dir3</code> works - it just renames the directory.</li>
+<li><code>touch file1 file2 file3</code> creates all 3 files in one go with identical timestamp.</li>
+</ul>
+<p>### Links (Hard Links and Soft Links)
+* Can determine whether a link is HL or SL by looking at the Inode numbers
+  - Hard links will have the same inode numbers
+  - Soft Link will have different inode numbers 
+  - If you delete a certain file using the <code>rm</code> command (<code>rm</code> unlinks the file from the filesystem. the data is still at the memory location. <code>shred</code> for permanant deletion)
+    - Its hard link will still give you access to the original file data.
+    - Its soft link will not work 
+* <code>ln -s source destination</code> to create symbolic link. <code>ln -s file1 file2</code>
+  - file2 is a separate inode entry but it is just a shortcut to file1
+  - file2 has only 1 hardlink.
+* <code>ln source destionation</code> to create a hard link . <code>ln file1 file3</code>
+  - file1 and file 3 have the same inode number - They are basically the same file.
+  - file1 and file3 have 2 hard links when we do <code>ls -li</code>
+* You can create a Soft Link <code>ln -s ../dir/filex fileSL</code> but creating a hard link using <code>ln ../dir/filex fileHL</code> will not work.
+  - the first/source-file parameter is interpreted in the case of hard link creation and not in soft link creation
+  - In the above example, assume that <code>../dir/filex</code> does not exist.
+  - soft links useful in version control systems</p>
+<h3>File Sizes</h3>
+<ul>
+<li><code>ls -s</code></li>
+<li>file size appears in the first column</li>
+<li><code>stat</code></li>
+<li>in <code>/usr/bin</code> we look at <code>stat znew</code></li>
+<li>Gives information about the size, how many blocks are being occupied</li>
+<li>Here the size is little more than 4kb</li>
+<li><code>stat zmore</code> shows that it takes less than one block</li>
+<li><code>du</code></li>
+<li>in <code>/usr/bin</code> we look at <code>du znew</code> or <code>du -h znew</code></li>
+<li>Gives information about the size</li>
+<li>Here the size is displayed as 8.0KB since there is a block overflow.</li>
+<li>This means that files that are smaller than the block size will actually take up a whole block</li>
+<li><code>du -h zmore</code> shows that it occupies one block - around 4.0K</li>
+<li>Role of block size</li>
+<li>explained in stat and du</li>
+</ul>
+<h3>In-Memory File Systems</h3>
+<ul>
+<li><code>/proc</code></li>
+<li>Is an older system </li>
+<li><code>ls -l</code> will display several zero-size files, even though we can read content from them.</li>
+<li>These are only a representation and not real files on the HDD.</li>
+<li><code>less cpuinfo</code> - information about the cpu</li>
+<li><code>cat version</code> - information about the OS. Also accessible using <code>uname -a</code></li>
+<li><code>cat meminfo</code> - information about the memory - also <code>free -h</code></li>
+<li><code>cat partitions</code> - information about the partitions - also <code>df -h</code> </li>
+<li>The <code>kcore</code> file appears to take huge space - Shows maximum virtual memory that the current linux os is able to handle. 2^47 or 140 TB</li>
+<li><code>/sys</code></li>
+<li>Used from Kernel v2.6 onwards, however information about various processes that are running are still stored in the /proc directory itself.</li>
+<li>Much more well organised than /proc</li>
+<li>eg : <code>sys/bus/usb/devices/1-1</code> points to a specific usb device. </li>
+<li>These are directories that are visible in the root folder. They are not on the disk but only in the memory.</li>
+<li>Important system information can be viewed from these directories in a read-only manner.</li>
+</ul>
+<h3>Shell Variables</h3>
+<ul>
+<li>Makes it possible to communicate between 2 processes very efficiently. Need not write and read the filesystem.</li>
+<li>Security Concern : Some information that you write to the filesystem may be visible to other processes.</li>
+<li>Shell variables are available only within the shell or its child processes.</li>
+<li><code>echo</code> prints strings to screen</li>
+<li>uses space as a delimiter so multiple spaces between words are ignored. For multiple spaces, enclose the string in quotes.</li>
+<li>can print a multi-line string by using double quotes and not closing it</li>
+<li><strong> Difference between ' and " </strong></li>
+<li><code>echo $USERNAME</code> and <code>echo "$USERNAME"</code> give the same result but <code>echo '$USERNAME'</code> is not interpreted to give the value of the shell variable.</li>
+<li><strong> Escaping to prevent interpretation </strong></li>
+<li><code>echo "username is $USERNAME and host name is \$HOSTNAME"</code></li>
+<li>Escaping is usefule when you want to pass on the information to a child shell, without it being interpreted by the shell launching it.</li>
+<li><code>echo $HOME</code> prints values of variables</li>
+<li>By convention every shell variable starts with a Dollar</li>
+<li><strong>Commonly used shell variables</strong></li>
+<li><code>$USERNAME</code> eg : <code>echo "User logged into system now is : $USERNAME"</code></li>
+<li><code>$HOME</code></li>
+<li><code>$HOSTNAME</code></li>
+<li><code>$PWD</code></li>
+<li><code>$PATH</code> - variable contains a list of directories which will be searched when you type a command. When ever you type a command the system scans these paths from left to right to see if the command is in the directory.</li>
+<li>Commands like <code>printenv</code> , <code>env</code> , <code>set</code> to see variables that are already defined</li>
+<li><code>printenv</code> displays all the shell variables defined in the shell that you are running.</li>
+<li><code>env</code> gives the same output</li>
+<li><code>set</code> displays some functions defined to interpret what you are typing on the command line.</li>
+<li><strong>Special Shell Variables</strong></li>
+<li><code>$0</code> : name of the shell eg <code>bash</code> or <code>ksh</code></li>
+<li><code>$$</code> : process ID of the shell </li>
+<li><code>$?</code> : return code of previously run program</li>
+<li><code>$-</code> : flags set in the bash shell . The man page for bash shows the meaning of the flags.</li>
+<li><strong>Process Control</strong> <code>echo $$</code></li>
+<li>use of <code>&amp;</code> to run a job in the background</li>
+<li><code>fg</code> - bring process to foreground</li>
+<li><code>coproc</code> - run a command while also being able to use the shell</li>
+<li><code>jobs</code> - list programs running in the background</li>
+<li><code>top</code> - See programs that are hogging the CPU or memory (refreshed every second)</li>
+<li><code>kill</code> - kill process owned by you </li>
+<li><strong>Program Exit Codes</strong> <code>echo $?</code> </li>
+<li>exit code always has a value between <em>0 and 255</em></li>
+<li>0 : Success</li>
+<li>1 : Failure</li>
+<li>2 : Misuse (insufficient permissions)</li>
+<li>126 : command cannot be executed (usually due to insufficient permissions to execute a file)</li>
+<li>127 : command not found (usually due to command typos)</li>
+<li>130 : processes killed using control+c</li>
+<li>137 : processes killed using <code>kill -9 &lt;pid&gt;</code></li>
+<li>If the exit code is more than 256 then the exitcode%256 will be reported as the exit code</li>
+<li><code>exit 0</code> or <code>exit 1</code> or <code>exit &lt;n&gt;</code> exits with exit code n</li>
+<li>Used when there are command dependencies (ie: run second command only if first command completes successfully)</li>
+<li><strong>Flags set in bash</strong> <code>echo $-</code></li>
+<li>h : locate hash commands</li>
+<li>B : braceexpansion enabled</li>
+<li>i : interactive mode</li>
+<li>m : job control enabled (can be taken to bg or fg)</li>
+<li>H : !style history substitution enabled</li>
+<li>s : commands are read from stdin</li>
+<li>c : commands are read from arguments</li>
+</ul>
+<h3>Linux Process Management</h3>
+<ul>
+<li><code>sleep</code> command to create processes</li>
+<li>usage : <code>sleep 3</code> for 3 seconds</li>
+<li>If you have a command running in the Foreground for a long time but you need to write something else on the command line :</li>
+<li>kill the process</li>
+<li>suspend the process</li>
+<li>run it in the background <code>coproc sleep 10</code> - When complete it gives a message.</li>
+<li><code>coproc</code> is a shell keyword. No manual entry for it.</li>
+<li>To learn more about a shell key word use <code>help coproc</code></li>
+<li>a running background process can be killed by process id (use : <code>ps --forest</code> to find PID and <code>kill -9 &lt;pid&gt;</code>)</li>
+<li>A command followed by an <code>&amp;</code> means that it is being assigned to the background</li>
+<li>Executing the command <code>fg</code> will bring it back to foreground</li>
+<li><code>jobs</code> is a shell builtin - it lists active jobs in the current shell</li>
+<li><code>top</code> shows processes taking up maximum cpu and memory. Exit gracefully by pressing Q</li>
+<li><code>Ctrl</code>+<code>z</code> suspends a process.</li>
+<li>Suspended processes can be seen with <code>jobs</code></li>
+<li>Can be brought back to foreground using <code>fg</code> command</li>
+<li><code>Ctrl</code>+<code>c</code> kills a process</li>
+<li><code>fg</code> is a shell builtin</li>
+<li><code>bash -c "echo \$-"</code> creates a child shell, gets the value of <code>echo $-</code>, gives the output to the parent shell</li>
+<li><code>bash -c "echo \$-; ps --forest;"</code> - multiple commands separated by ;</li>
+<li><code>bash -c "echo \$$ ; ps --forest ; exit 300"</code> : custom error code mod 256 = 44</li>
+<li><code>history</code> displays a list of commands that have been run on that computer</li>
+<li><code>!n</code> executes command line no n displayed by <code>history</code></li>
+<li>useful for repeating long commands</li>
+<li>The <code>H</code> flag in bash means the history is being recorded</li>
+<li>Brace expansion option <code>B</code></li>
+<li>if you type <code>echo {a..z}</code> character in the ASCII sequence will be expanded.</li>
+<li>In combination <code>echo {a..d}{a..d}</code> will display all possible combinations of the 2 alphabets.</li>
+<li><code>*</code> exapnds to all the files in the current directory</li>
+<li><code>echo D*</code> lists all the files begining with D.</li>
+<li>Examples :<ul>
+<li><code>mkdir {1..12}{A..E}</code> or <code>rmdir {1..12}{A..E}</code> or <code>touch {1..12}{A..E}/{1..40}</code></li>
+</ul>
+</li>
+<li><code>;</code> acts as a separator between individual commands eg : <code>echo hello ; ls</code></li>
+</ul>
+<h3>REPLIT CODE WITH US</h3>
+<p><a href="https://replit.com/team/22t1SystemCommand">Link to Replit</a>
+- <code>date -d "2024-04-01" +%A</code> - Day of the week for given date
+- <code>file --mime-type somefile</code> - mime type of a given file 
+- <code>mkdir {1..12}{A..E}</code>
+- <code>rmdir {1..12}{A..E}</code>
+- <code>touch {1..12}{A..E}/{1..40}</code>
+- <code>lscpu | grep -i "model name"| cut -d ":" -f "2"</code></p>
+{% endblock %}

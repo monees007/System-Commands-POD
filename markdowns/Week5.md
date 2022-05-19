@@ -92,11 +92,11 @@
 |  **u** 	|  **u**ndo latest change 	|
 
 ##### Using nano
-* [Link](Command_line_editors/nano.md)
+* [Link](../Command_line_editors/nano.md)
 ##### Using vi
-* [Link](Command_line_editors/vi.md)
+* [Link](../Command_line_editors/vi.md)
 ##### Using emacs
-* [Link](Command_line_editors/emacs.md)
+* [Link](../Command_line_editors/emacs.md)
 ---
 #### Scripts 
 * Software Tools Principles (Ref: Classic Shell Scripting – Arnold Robbins & Nelson H.F. Beebe)
