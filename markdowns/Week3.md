@@ -136,7 +136,9 @@
   - `echo ${!H*}`
     - displays the list of names of shell variables that start with H
 * Length of string value
+  {% raw %}
   - `echo ${#myvar}`
+    {% endraw %}
     - Display length of the string value of the variable `myvar`
     - if `myvar` is not set then display 0
 * Slice of a string value
@@ -181,7 +183,9 @@
     - Set value of element with index 0 in the array
   - `echo ${arr[0]}`
     - Value of element with index 0 in the array
+      {% raw %}
   - `echo ${#arr[@]}`
+    {% endraw %}
     - Number of elements in the array. The `@` symbol is a wild character to run through all the elements in the array
   - `echo ${!arr[@]}`
     - Display all indices used
@@ -198,7 +202,9 @@
     - set the value of element with index a in the array
   - `echo ${hash[“a”]}`
     - value of element with index a in the array
+      {% raw %}
   - `echo ${#hash[@]}`
+    {% endraw %}
     - number of elements in the array
   - `echo ${!hash[@]}`
     - display all indices used
@@ -249,7 +255,8 @@
     - `echo ${!H*}` displays the names of variables begining with 'H' - `!` indicates names of the variables instead of value.
   - Counting characters
     - `` mydate=`date` `` stores the output of the `date` command in `mydate`
-    - `echo ${#mydate}` prints the length of the value present in mydate.
+      {% raw %}
+    - `echo ${#mydate}` {% endraw %} prints the length of the value present in mydate.
     - length of a non-existing variable is zero
   - Features of using colon : within braces {}
     - Extracting part of a string from the value of a particular variable.
@@ -321,8 +328,9 @@
         - `arr[0]=Sunday`
         - `arr[1]=Monday`
         - `echo ${arr[0]}`
-        - `echo ${arr[1]}` 
-        - `echo ${#arr[@]}` gives number of elements in the array
+        - `echo ${arr[1]}`
+          {% raw %}
+        - `echo ${#arr[@]}`{% endraw %} gives number of elements in the array
         - `echo ${arr[@]}` displays all values
         - `echo ${!arr[@]}` displays the indices`
         - You can have any index without filling up intermediate indices. Indices are not necessarily contiguous.

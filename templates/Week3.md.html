@@ -5,31 +5,26 @@
 <h3>Combining Commands and Files</h3>
 <ul>
 <li>Executing Multiple Commands</li>
-<li><code>command1; command2; command3;</code><ul>
+<li><code>bash
+  command1; command2; command3;</code><ul>
 <li>Each command will be executed one after the other.</li>
-</ul>
-</li>
-<li><code>command1 &amp;&amp; command2</code><ul>
+<li><code>command1 &amp;&amp; command2</code></li>
 <li>command2 will be executed only if command 1 succeeds</li>
 <li>If the return code is 0 it is true and if it is greater than 0 it is false</li>
 <li><code>ls &amp;&amp; date -Q &amp;&amp; wc -l /etc/profile</code> will display the dir listing followed by error that -Q is invalid; wc is not executed.</li>
-</ul>
-</li>
-<li><code>command1 || command2</code><ul>
+<li><code>command1 || command2</code></li>
 <li>command2 will not be executed if command1 succeeds</li>
 <li><code>ls /blah || date</code> will display current date after "No such file or directory"</li>
 <li><code>ls || date</code> will display just the directory listing</li>
 <li>command2 is like a Plan B if command1 doesn't succeed.</li>
-</ul>
-</li>
 <li>Example <code>ls /blah ; date ; wc -l /etc/profile ;</code></li>
 <li>If we use parenthesis ie <code>(ls /blah ; date ; wc -l /etc/profile ;)</code> the command gets executed in a subshell and is returned back to the shell we are using.</li>
-<li>We can use <code>echo $BASH_SUBSHELL</code> to return an integer which tells us at what level of execution we are.<ul>
+<li>We can use <code>echo $BASH_SUBSHELL</code> to return an integer which tells us at what level of execution we are.</li>
 <li><code>(echo $BASH_SUBSHELL)</code> will report a value of 1 </li>
 <li><code>(ls; (date; echo $BASH_SUBSHELL))</code> will report a value of 2</li>
+<li>Launching too many subshells could be expensive computationally.</li>
 </ul>
 </li>
-<li>Launching too many subshells could be expensive computationally.</li>
 <li>File Descriptors</li>
 <li>Every command in linux has 3 file descriptors - <code>stdin</code> (0) , <code>stdout</code> (1), <code>stderr</code> (2).<ul>
 <li><code>stdin</code> is a pointer to a stream that is coming from the keyboard or use input</li>
@@ -173,8 +168,10 @@
 <li>displays the list of names of shell variables that start with H</li>
 </ul>
 </li>
-<li>Length of string value</li>
-<li><code>echo ${#myvar}</code><ul>
+<li>Length of string value
+  {% raw %}</li>
+<li><code>echo ${#myvar}</code>
+    {% endraw %}<ul>
 <li>Display length of the string value of the variable <code>myvar</code></li>
 <li>if <code>myvar</code> is not set then display 0</li>
 </ul>
@@ -226,10 +223,12 @@
 </ul>
 </li>
 <li><code>echo ${arr[0]}</code><ul>
-<li>Value of element with index 0 in the array</li>
+<li>Value of element with index 0 in the array
+  {% raw %}</li>
 </ul>
 </li>
-<li><code>echo ${#arr[@]}</code><ul>
+<li><code>echo ${#arr[@]}</code>
+    {% endraw %}<ul>
 <li>Number of elements in the array. The <code>@</code> symbol is a wild character to run through all the elements in the array</li>
 </ul>
 </li>
@@ -259,10 +258,12 @@
 </ul>
 </li>
 <li><code>echo ${hash[“a”]}</code><ul>
-<li>value of element with index a in the array</li>
+<li>value of element with index a in the array
+  {% raw %}</li>
 </ul>
 </li>
-<li><code>echo ${#hash[@]}</code><ul>
+<li><code>echo ${#hash[@]}</code>
+    {% endraw %}<ul>
 <li>number of elements in the array</li>
 </ul>
 </li>
@@ -332,8 +333,9 @@
 </ul>
 </li>
 <li>Counting characters<ul>
-<li><code>mydate=`date`</code> stores the output of the <code>date</code> command in <code>mydate</code></li>
-<li><code>echo ${#mydate}</code> prints the length of the value present in mydate.</li>
+<li><code>mydate=`date`</code> stores the output of the <code>date</code> command in <code>mydate</code>
+  {% raw %}</li>
+<li><code>echo ${#mydate}</code> {% endraw %} prints the length of the value present in mydate.</li>
 <li>length of a non-existing variable is zero</li>
 </ul>
 </li>
@@ -437,8 +439,9 @@
 <li><code>arr[0]=Sunday</code></li>
 <li><code>arr[1]=Monday</code></li>
 <li><code>echo ${arr[0]}</code></li>
-<li><code>echo ${arr[1]}</code> </li>
-<li><code>echo ${#arr[@]}</code> gives number of elements in the array</li>
+<li><code>echo ${arr[1]}</code>
+  {% raw %}</li>
+<li><code>echo ${#arr[@]}</code>{% endraw %} gives number of elements in the array</li>
 <li><code>echo ${arr[@]}</code> displays all values</li>
 <li><code>echo ${!arr[@]}</code> displays the indices`</li>
 <li>You can have any index without filling up intermediate indices. Indices are not necessarily contiguous.</li>
