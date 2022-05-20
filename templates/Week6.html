@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+ï»¿{% extends 'base.html' %}
 
 {% block content %}
 <p>6.1</p>
@@ -382,7 +382,7 @@ echo selection completed with $i</code></li>
 <p>Usage</p>
 <ul>
 <li>Single line at the command line<ul>
-<li><code>cat /etc/passwd | awk -F”:” ‘{print $1}’</code></li>
+<li><code>cat /etc/passwd | awk -Fâ€:â€ â€˜{print $1}â€™</code></li>
 </ul>
 </li>
 <li>Script interpreted by awk<ul>
@@ -622,7 +622,7 @@ do
 <li><code>mylib</code>
 <code>function myfunc1()
 {
-    printf “%s\n”, $1
+    printf â€œ%s\nâ€, $1
 }
 function myfunc2(a)
 {

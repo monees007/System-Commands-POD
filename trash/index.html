@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/style.css') }}">
+    <title>System Commands</title>
+
+</head>
+<body>
+    <nav>
+        <input type="checkbox" id="check">
+        <label for="check" class="checkbtn">
+<!--            <i class="fas fa-bars"></i>-->
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </label>
+        <label class="logo">System Commands</label>
+
+        <ul>
+            {% for i in range(leng) %}
+            <li><a href="/notes/{{ i }}">{{ weekl[i] }}</a></li>
+            {% endfor %}
+        </ul>
+    </nav>
+    <section>
+        {% block content %}
+        {% endblock %}
+    </section>
+</body>
+</html>

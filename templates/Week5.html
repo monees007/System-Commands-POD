@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+Ôªø{% extends 'base.html' %}
 
 {% block content %}
 <h3>Week 5 Notes</h3>
@@ -115,12 +115,12 @@
 <h2>* <a href="../Command_line_editors/emacs.md">Link</a></h2>
 <h4>Scripts</h4>
 <ul>
-<li>Software Tools Principles (Ref: Classic Shell Scripting ñ Arnold Robbins &amp; Nelson H.F. Beebe)</li>
+<li>Software Tools Principles (Ref: Classic Shell Scripting ‚Äì Arnold Robbins &amp; Nelson H.F. Beebe)</li>
 <li>Do one thing well</li>
 <li>Process lines of text, not binary</li>
 <li>Use regular expressions</li>
 <li>Default to standard I/O</li>
-<li>Donít be chatty</li>
+<li>Don‚Äôt be chatty</li>
 <li>Generate same output format accepted as input</li>
 <li>Let someone else do the hard part</li>
 <li>Detour to build specialized tools</li>
@@ -168,7 +168,7 @@ functions
     - `echo My home is $HOME`
   - `printf`
     - supports format specifiers like in C
-    - `printf ìMy home is %s\nî $HOME`
+    - `printf ‚ÄúMy home is %s\n‚Äù $HOME`
 * Input to shell scripts
   - `read var`
     - string read from command line is stored in `$var`
@@ -178,8 +178,8 @@ functions
   - `$1` or `${1}` first argument
   - `${11}` eleventh argument
   - `$*` or `$@` all arguments at once
-  - `ì$*î` all argument as a single string
-  - `ì$@î` all argument as a separate strings
+  - `‚Äú$*‚Äù` all argument as a single string
+  - `‚Äú$@‚Äù` all argument as a separate strings
   - example : `./myscript.sh -l arg2 -v arg4`
 * Command substitution
   -</code>var=<code>command</code> <code>- `var=$(command)`
@@ -237,7 +237,7 @@ functions
 </ul>
 </li>
 <li>pipeline<ul>
-<li><code>who|grep ìjoyî &gt; /dev/null</code></li>
+<li><code>who|grep ‚Äújoy‚Äù &gt; /dev/null</code></li>
 </ul>
 </li>
 <li>For negation <code>! condition</code></li>
