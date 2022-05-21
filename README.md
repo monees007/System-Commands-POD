@@ -1,14 +1,32 @@
 # System-Commands-course
 
-#### Notes from the System Commands course
-* [Week 1](markdowns/Week1.md)
-* [Week 2](markdowns/Week2.md)
-* [Week 3](markdowns/Week3.md)
-* [Week 4](markdowns/Week4.md)
-* [Week 5](markdowns/Week5.md)
-* [Week 6](markdowns/Week6.md)
-* [Week 7](markdowns/Week7.md)
-* [Week 8](markdowns/Week8.md)
+I recently saw notes of `System Command` couse entirely in markdown. So I wrote a python script to convert `Markdowns` to `HTMLs`  and decorated them with CSS.
+For the cherry on the cake I used `flask` library to produce dynamic header which automatically enlist link to all files in the header menu.
+
+
+Please do check out and let me know any suggestion through GitHub comments/issues/pull requests.
+
+<details><summary>STEPS TO RUN ON YOUR PC</summary>
+<p>
+
+Clone the repository
+```bash
+git clone https://github.com/monees007/System-Commands-POD.git && cd System-Commands-POD
+```
+Install flask library
+```bash
+pip install flask
+```
+Run the program
+```bash
+python ./index.py
+```
+</p>
+</details>
+
+It will be nice if we can seperate notes into folders (and so topics) while preserving the responsiveness of website. Can somebody help me to do this. 
+
+
 
 #### Reference Books:
 * The Command Line - a complete introduction, by William Shotts. (ISBN: 9781593279523)
