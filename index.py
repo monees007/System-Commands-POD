@@ -19,4 +19,4 @@ def notes(i):
     return render_template(weekl[int(i)]+'.md.html',weekl=weekl,leng=len(weekl))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
